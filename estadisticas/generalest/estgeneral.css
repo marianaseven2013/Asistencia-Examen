@@ -1,0 +1,76 @@
+/* estgeneral.css */
+.estadisticas-container {
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-family: sans-serif;
+}
+
+.estadisticas-header {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.btn-descargar {
+    font-size: 24px;
+    background: cyan;
+    border: none;
+    border-radius: 50%;
+    width: 35px;
+    height: 35px;
+}
+
+.btn-regresar {
+    background: none;
+    border: none;
+    font-weight: bold;
+    font-size: 14px;
+    color: black;
+}
+
+.grafica-barras {
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+    height: 150px;
+    border: 1px solid #aaa;
+    padding: 10px;
+    margin-bottom: 20px;
+}
+
+.barra-contenedor {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 20px;
+}
+
+.barra {
+    width: 100%;
+    background: lightgray;
+    transition: height 0.3s ease;
+}
+
+.etiqueta {
+    font-size: 10px;
+    margin-top: 5px;
+}
+
+.botones-grados {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+}
+
+.btn-grado {
+    background: #ddd;
+    border: none;
+    padding: 10px;
+    border-radius: 6px;
+    min-width: 60px;
+    cursor: pointer;
+}

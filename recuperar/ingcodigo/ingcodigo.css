@@ -1,0 +1,107 @@
+.ingcodigo {
+    width: 100%;
+    height: 40rem;
+    background-image: linear-gradient(rgba(246, 246, 246, 0.5), rgba(95, 94, 94, 0.5)),
+                      url(https://i.pinimg.com/736x/9b/c8/e1/9bc8e15036e4ce39bd0c4eb5527478c0.jpg);
+    background-blend-mode: darken;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    grid-template-rows: repeat(8, 1fr);
+    font-family: 'Arial', sans-serif;
+}
+
+.cuadro-codigo {
+    grid-column: 2/5;
+    grid-row: 2/8;
+    background: transparent;
+    background-image: linear-gradient(rgba(246, 246, 246, 0.5), rgba(86, 162, 127, 0.5));
+    border: 2px solid #333;
+    border-radius: 10px;
+    box-shadow: 0px 0px 15px 5px rgba(0,0,0,0.3);
+    padding: 2rem;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    grid-template-rows: repeat(8, 1fr);
+    align-items: center;
+}
+
+.titulo-codigo {
+    font-size: 2.5rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+    grid-column: 1/6;
+    grid-row: 1/2;
+    margin: 5px 5px;
+}
+
+.instruccion {
+    font-size: 1.2rem;
+    margin-bottom: 1.5rem;
+    text-align: center;
+    grid-column: 1/6;
+    grid-row: 2/3;
+    margin: 5px 5px;
+}
+
+.input-codigo {
+    width: 80%;
+    padding: 0.8rem;
+    font-size: 1.2rem;
+    margin-bottom: 1.5rem;
+    border: 1px solid #aaa;
+    border-radius: 5px;
+    grid-column: 2/5;
+    grid-row: 4/5;
+    margin: 5px 5px;
+}
+
+.btn-enviar {
+    padding: 0.8rem;
+    font-size: 1.2rem;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    margin-bottom: 1rem;
+    cursor: pointer;
+    grid-column: 3/4;
+    grid-row: 7/8;
+}
+
+.btn-enviar:hover {
+    background-color: #218838;
+}
+
+.btn-regresar {
+    padding: 0.8rem;
+    font-size: 1.2rem;
+    background-color: #677d63;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    grid-column: 1/2;
+    grid-row: 7/8;
+    margin: 5px 5px;
+}
+
+.btn-regresar:hover {
+    background-color: #c82333;
+}
+
+.btn-seguir {
+    padding: 0.8rem;
+    font-size: 1.2rem;
+    background-color: #677d63;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    grid-column: 5/6;
+    grid-row: 7/8;
+    margin: 5px 5px;
+}
+
+.btn-seguir:hover {
+    background-color: #98a345;
+}
