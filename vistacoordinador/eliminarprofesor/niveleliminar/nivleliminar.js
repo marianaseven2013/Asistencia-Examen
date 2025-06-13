@@ -1,0 +1,52 @@
+function niveleliminar() {
+    let contenedor = document.createElement('div');
+    contenedor.className = "niveleliminar-container";
+
+    let grande = document.createElement('div');
+    grande.className = "niveleliminar-grande";
+    contenedor.appendChild(grande);
+
+    let titulo = document.createElement('h1');
+    titulo.textContent = "Eliminar Profesor";
+    contenedor.appendChild(titulo);
+
+    let subtitulo = document.createElement('h2');
+    subtitulo.textContent = "Seleccione el nivel del profesor a eliminar";
+    contenedor.appendChild(subtitulo);
+
+    // Botones para los niveles
+    const niveles = ["Pre-Primaria", "Primaria", "Básicos", "Diversificado"];
+    
+    niveles.forEach((nivel, index) => {
+        let boton = document.createElement('button');
+        boton.className = `nivel-boton boton-${index + 1}`;
+        boton.textContent = nivel;
+        
+        // Evento para mostrar profesores a eliminar
+        boton.addEventListener('click', () => {
+            const evento = new CustomEvent('mostrarProfeEliminar', {
+                detail: { nivelSeleccionado: nivel },
+                bubbles: true
+            });
+            contenedor.dispatchEvent(evento);
+        });
+        
+        grande.appendChild(boton);
+    });
+
+    // Botón de regresar
+    let botonRegresar = document.createElement('button');
+    botonRegresar.className = "nivel-boton boton-regresar";
+    botonRegresar.textContent = "Regresar";
+    botonRegresar.addEventListener('click', () => {
+        const evento = new CustomEvent('volverProyeccion', {
+            bubbles: true
+        });
+        contenedor.dispatchEvent(evento);
+    });
+    grande.appendChild(botonRegresar);
+
+    return contenedor;
+}
+
+export { niveleliminar };

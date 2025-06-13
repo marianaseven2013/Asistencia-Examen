@@ -1,13 +1,11 @@
-function calnd() {
+function calnd(nombreAlumno = "Nombre Completo") {
     const cl_dar = document.createElement('div');
     cl_dar.className = "pa-calen";
 
-    // Variables de fecha
     let fechaActual = new Date();
-    let mes = fechaActual.getMonth(); // 0 - 11
+    let mes = fechaActual.getMonth();
     let anio = fechaActual.getFullYear();
 
-    // Botón para regresar
     const backButton = document.createElement('button');
     backButton.textContent = 'Regresar';
     backButton.className = 'btn-regresar';
@@ -17,10 +15,9 @@ function calnd() {
     });
 
     const nombre = document.createElement('h2');
-    nombre.textContent = "Nombre Completo";
+    nombre.textContent = nombreAlumno;  // 👈 Aquí usamos el parámetro recibido
     nombre.className = 'titulo-nombre';
 
-    // Selector de mes
     const mesContainer = document.createElement('div');
     mesContainer.className = 'mes-container';
 
@@ -39,7 +36,6 @@ function calnd() {
     mesContainer.appendChild(mesTexto);
     mesContainer.appendChild(btnDown);
 
-    // Tabla
     const tabla = document.createElement('table');
     tabla.className = 'tabla-calendario';
 
@@ -60,7 +56,7 @@ function calnd() {
         tbody.innerHTML = '';
 
         const fechaInicio = new Date(anio, mes, 1);
-        const primerDia = fechaInicio.getDay(); // 0=Dom, 1=Lun, ...
+        const primerDia = fechaInicio.getDay();
         const diasEnMes = new Date(anio, mes + 1, 0).getDate();
 
         mesTexto.textContent = `${fechaInicio.toLocaleString('es', { month: 'long' })} ${anio}`;
@@ -78,7 +74,7 @@ function calnd() {
                     td.textContent = dia;
                     td.dataset.fecha = `${anio}-${(mes + 1).toString().padStart(2, '0')}-${dia.toString().padStart(2, '0')}`;
                     td.addEventListener('click', () => {
-                        td.classList.toggle('activo'); // Cambiar color o estado visual
+                        td.classList.toggle('activo');
                     });
                     dia++;
                 }
@@ -107,7 +103,6 @@ function calnd() {
         renderCalendario();
     });
 
-    // Leyenda
     const leyenda = document.createElement('div');
     leyenda.className = 'leyenda';
     leyenda.innerHTML = `

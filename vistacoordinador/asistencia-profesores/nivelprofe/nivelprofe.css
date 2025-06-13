@@ -1,0 +1,83 @@
+.nivelprofe-container {
+    display: grid;
+    grid-template-columns: repeat(10, 1fr);
+    grid-template-rows: repeat(9, 1fr);
+    background-color: #FFA64D;
+    max-width: 100%;
+    height: 40rem;
+}
+
+.nivelprofe-grande {
+    grid-column: 4/8;
+    grid-row: 3/9;
+    background-image: url(https://i.pinimg.com/736x/64/17/bb/6417bb90c55d427f7b54aba44f4f86d0.jpg);
+    display: grid;
+    grid-template-columns: auto 17rem auto;
+    grid-template-rows: 1rem repeat(5, 1fr) 1rem;
+    gap: 5px;
+    border-radius: 6px;
+    box-shadow: 5px 7px 5px 7px rgb(211, 211, 211);
+}
+
+.nivel-boton {
+    grid-column: 2/3;
+    background-color: #84a98c;
+    border: none;
+    box-shadow: 3px 3px 3px 3px rgb(228, 228, 228);
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+    padding: 0.5rem;
+    margin: 0.2rem 0;
+}
+
+.nivel-boton:hover {
+    transition: 0.2s;
+    background-color: #52796f;
+}
+
+.boton-1 {
+    grid-row: 2/3;
+}
+
+.boton-2 {
+    grid-row: 3/4;
+}
+
+.boton-3 {
+    grid-row: 4/5;
+}
+
+.boton-4 {
+    grid-row: 5/6;
+}
+
+.boton-regresar {
+    grid-row: 6/7;
+    background-color: #6c757d;
+}
+
+.boton-regresar:hover {
+    background-color: #5a6268;
+}
+
+h1 {
+    grid-column: 4/8;
+    grid-row: 1/2;
+    border: transparent;
+    color: white;
+    font-size: 2.5rem;
+    text-align: center;
+    margin: 0;
+}
+
+h2 {
+    grid-column: 4/8;
+    grid-row: 2/3;
+    border: transparent;
+    color: white;
+    font-size: 1.8rem;
+    text-align: center;
+    margin: 0;
+}

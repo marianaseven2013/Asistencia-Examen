@@ -1,12 +1,13 @@
 .loogin{
     width: 100%;
     height: 40rem;
-background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
-                      url(https://i.pinimg.com/736x/9c/bc/ae/9cbcae3ef8a551f877271aead15b5544.jpg);
+background-image: linear-gradient(rgba(99, 99, 99, 0.5), rgba(75, 75, 75, 0.5)),
+                            url(https://img.freepik.com/foto-gratis/cuadernos-naranja-sobre-fondo-verde-concepto-merienda-escolar_169016-26881.jpg?ga=GA1.1.2079080624.1749756288&semt=ais_hybrid&w=740);
     background-blend-mode: darken;    /* background-color: rgb(222, 241, 189);*/
     display: grid;
     grid-template-columns: 37% auto;
     grid-template-rows: 1fr;
+
     }
 
 .cuadro-logo{
@@ -14,6 +15,7 @@ background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
    grid-row: 1/2;
    height: 40rem;
    background-color: #52796f;
+   background-image: url(https://img.freepik.com/fotos-premium/bolsa-escolar-articulos-esenciales-articulos-papeleria-estandarte-sobre-fondo-naranja-espacio-texto_174533-37469.jpg?ga=GA1.1.2079080624.1749756288&semt=ais_hybrid&w=740);
 
    display: grid;
    grid-template-columns: 1fr;
@@ -65,7 +67,7 @@ background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
     grid-column: 2/4;
     grid-row: 3/4;
     background: transparent;
-    background-color: rgb(213, 231, 187);
+    background-image: linear-gradient(rgba(253, 184, 93, 0.5), rgba(255, 123, 0, 0.5));
     border: 3px solid rgb(200, 230, 155);
     color: rgb(0, 0, 0);
  }
@@ -73,9 +75,10 @@ background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
 .contra-input{ 
     grid-column: 2/4;
     grid-row: 5/6;
-    background: transparent;
-    background-color: rgb(213, 231, 187);
+     background: transparent;
+    background-image: linear-gradient(rgba(253, 184, 93, 0.5), rgba(255, 123, 0, 0.5));
     border: 3px solid rgb(200, 230, 155);
+    color: white;
  }
 
 .login-form{ 
@@ -107,10 +110,12 @@ background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
 
 .forgot-password {
     margin-top: 0.5rem;
-    font-size: 0.9rem;
+    font-size: 1.5rem;
     text-align: center;
     grid-column: 2/4;
     grid-row: 6/7;
+    font-weight: bold;
+
 }
 
 .forgot-password a {

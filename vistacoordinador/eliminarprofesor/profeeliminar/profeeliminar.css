@@ -1,0 +1,78 @@
+.profeeliminar-container {
+    display: grid;
+    grid-template-columns: repeat(10, 1fr);
+    grid-template-rows: repeat(9, 1fr);
+    background-color: #FFA64D;
+    max-width: 100%;
+    height: 40rem;
+}
+
+.profeeliminar-grande {
+    grid-column: 4/8;
+    grid-row: 3/9;
+    background-image: url(https://i.pinimg.com/736x/64/17/bb/6417bb90c55d427f7b54aba44f4f86d0.jpg);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+    border-radius: 6px;
+    box-shadow: 5px 7px 5px 7px rgb(211, 211, 211);
+    padding: 1rem;
+    overflow-y: auto;
+}
+
+.grupo-profesor {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+    background-color: rgba(255, 255, 255, 0.8);
+    padding: 1rem;
+    border-radius: 5px;
+    width: 80%;
+}
+
+.grado-profesor {
+    font-weight: bold;
+    margin: 0;
+    color: #333;
+}
+
+.nombre-profesor {
+    margin: 0;
+    color: #555;
+}
+
+.eliminar-boton {
+    background-color: #ff6b6b;
+    border: none;
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-top: 0.5rem;
+    width: 100%;
+}
+
+.eliminar-boton:hover {
+    background-color: #ff5252;
+}
+
+.boton-regresar {
+    background-color: #6c757d;
+    margin-top: 1rem;
+}
+
+.boton-regresar:hover {
+    background-color: #5a6268;
+}
+
+h1 {
+    grid-column: 4/8;
+    grid-row: 1/2;
+    border: transparent;
+    color: white;
+    font-size: 2rem;
+    text-align: center;
+    margin: 0;
+}

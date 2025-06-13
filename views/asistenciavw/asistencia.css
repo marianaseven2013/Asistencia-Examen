@@ -1,19 +1,25 @@
 .asistencia-container {
-/*     background-image: url(https://i.pinimg.com/736x/d0/16/24/d016247f287e7108f8f25f4d26fc8563.jpg);
- */    
-    background-color: rgb(236, 183, 86);
- height: 100%;
+    background-color: rgb(253, 255, 111);
+    background-image: url(https://img.freepik.com/vector-premium/volver-patron-doodle-fondo-escuela_76844-828.jpg?ga=GA1.1.2079080624.1749756288&semt=ais_hybrid&w=740);
+    height: 100%;
+    border: 8px solid black;
     font-family: Arial, sans-serif;
     max-width: 100%;
-    margin: 0 auto;
+    margin: 2 auto;
     padding: 20px;
 }
 
 .asistencia-container h1 {
-    color: #333;
-    text-align: center;
-    margin-bottom: 5px;
+  font-family: 'Comic Sans MS', cursive, sans-serif; /* o la que prefieras */
+  color: #333;
+  text-align: center;
+  margin-bottom: 5px;
+  text-shadow: none !important;
+  background: none !important;
+  border: none !important;
+  padding: 0 !important;
 }
+
 
 .asistencia-container h2 {
     color: #555;
@@ -26,6 +32,7 @@
 
 .alumnos-container {
     margin-bottom: 20px;
+    background-color: #f7e1d0;
 }
 
 .alumno-item {
@@ -33,6 +40,7 @@
     padding-bottom: 15px;
     border-bottom: 1px solid #eee;
     position: relative;
+    margin-left: 10rem;
 }
 
 .alumno-item:last-child {
@@ -44,12 +52,14 @@
     justify-content: space-between;
     align-items: center;
     margin-bottom: 5px;
+    gap: 10px;
 }
 
 .nombre-wrapper h3 {
     margin: 0;
     font-size: 1.1em;
     flex-grow: 1;
+    min-width: 200px; 
 }
 
 .acciones-container {
@@ -58,19 +68,17 @@
     gap: 10px;
 }
 
-.delete-btn img {
-    width: 28px;
-    height: 28px;
-    display: block;
-}
-
-.estado-btn {
-    width: 28px; 
-    height: 28px;
-    border: 1px solid #ddd;
+.delete-btn {
+    background: transparent;
+    border: none;
     cursor: pointer;
     padding: 0;
-    transition: all 0.3s;
+}
+
+.delete-btn img {
+    width: 3rem;
+    height: 2.5rem;
+    display: block;
 }
 
 .estado-btn {
@@ -80,6 +88,7 @@
     cursor: pointer;
     padding: 0;
     transition: all 0.2s;
+    margin-right: 14rem;
 }
 
 .correo-wrapper {
@@ -90,7 +99,7 @@
 
 .correo-wrapper p {
     margin: 0;
-    color: #555;
+    color: #0066cc;
 }
 
 .correo-wrapper a {
@@ -105,21 +114,23 @@
 .acciones-correo {
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 8px; /* Ajuste del espacio entre los iconos */
 }
 
 .email-btn, .uniforme-btn {
     background: none;
     border: none;
     cursor: pointer;
-    padding: 0;
 }
 
 .email-btn img, .uniforme-btn img {
-    width: 24px;  
-    height: 24px;
+    width: 3rem;  
+    height: 3rem;
     display: block;
+    margin: 0; /* <-- margen eliminado */
+    margin-right: 3rem;
 }
+
 .delete-btn:hover, .email-btn:hover, .uniforme-btn:hover {
     opacity: 0.7;
 }
@@ -142,6 +153,7 @@
     background-color: #4CAF50;
     color: white;
     border-color: #45a049;
+    margin-right: 3rem;
 }
 
 .mark-all-container {
@@ -153,7 +165,6 @@
     margin-right: 8px;
 }
 
-
 .header-container {
     display: flex;
     justify-content: space-between;
@@ -164,8 +175,7 @@
 
 .header-title {
     font-size: 1.2em;
-    font-weight: normal;
-    margin-right: 53rem;
+    margin-right: 53re;
     color: black;
 }
 
@@ -178,18 +188,18 @@
     background: none;
     border: none;
     cursor: pointer;
-    padding: 0;
 }
 
 .email-header-btn img {
-    width: 28px;  
-    height: 28px; 
+    width: 3rem;  
+    height: 4rem; 
     display: block;
     margin-left: 12rem;
 }
+
 .for-all-btn {
-    padding: 5px 10px;
-    background-color: #4CAF50;
+/*     padding: 5px 10px;
+ */    background-color: #4CAF50;
     color: white;
     border: none;
     border-radius: 4px;
@@ -203,32 +213,30 @@
 
 .formulario-btn {
     padding: 5px 10px;
-    background-color: #a2cb6b;
+    background-color: #292b27;
     box-shadow: 3px 2px 3px 2px rgb(191, 191, 191);
     color: white;
     border: none;
     border-radius: 4px;
     cursor: pointer;
     font-size: 0.9em;
-    margin-right: 10px;
-    height: 2.5rem;
+    margin-right: 8rem;
+    height: 2rem;
 }
 
 .formulario-btn:hover {
     background-color: #88ce53;
 }
 
-.nombre-wrapper {
+.title-container {
     display: flex;
-    justify-content: space-between;
     align-items: center;
-    margin-bottom: 5px;
     gap: 10px;
+    margin-bottom: 10px;
+    margin-left: 20rem;
 }
 
-.nombre-wrapper h3 {
-    margin: 0;
-    font-size: 1.1em;
-    flex-grow: 1;
-    min-width: 200px; 
+.logosg-img {
+    width: 8rem;
+    height: auto;
 }

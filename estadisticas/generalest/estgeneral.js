@@ -10,7 +10,7 @@ function estg() {
 
     const descargar = document.createElement('button');
     descargar.className = 'btn-descargar';
-    descargar.textContent = '\u2B07'; // Flecha hacia abajo como ícono
+    descargar.textContent = '\u2B07'; // Flecha hacia abajo
 
     const regresar = document.createElement('button');
     regresar.className = 'btn-regresar';
@@ -24,11 +24,11 @@ function estg() {
     header.appendChild(regresar);
     contenedor.appendChild(header);
 
-    // Gráfico (placeholder de barras)
+    // Gráfico (barras)
     const grafica = document.createElement('div');
     grafica.className = 'grafica-barras';
 
-    const grados = ['VC', 'VD', 'VB', 'IVC', 'IVB', 'IVPC', 'VPC', 'VIPC']; // Ejemplo
+    const grados = ['VC', 'VD', 'VB', 'IVC', 'IVB', 'IVPC', 'VPC', 'VIPC'];
     const valores = [8, 7, 9, 5, 6, 10, 7, 6];
 
     grados.forEach((grado, i) => {
@@ -37,7 +37,7 @@ function estg() {
 
         const barra = document.createElement('div');
         barra.className = 'barra';
-        barra.style.height = (valores[i] * 10) + 'px'; // Simula altura
+        barra.style.height = (valores[i] * 10) + 'px'; // Altura simulada
 
         const etiqueta = document.createElement('div');
         etiqueta.className = 'etiqueta';
@@ -58,6 +58,16 @@ function estg() {
         const btn = document.createElement('button');
         btn.className = 'btn-grado';
         btn.textContent = grado;
+
+        // ✅ Emitir el evento mostrarIndividual al hacer clic
+        btn.addEventListener('click', () => {
+            const event = new CustomEvent('mostrarIndividual', { 
+                bubbles: true, 
+                detail: { grado } 
+            });
+            contenedor.dispatchEvent(event);
+        });
+
         botonesContainer.appendChild(btn);
     });
 
