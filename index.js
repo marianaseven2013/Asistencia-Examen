@@ -7,7 +7,8 @@ import { proyect } from './vistacoordinador/proyecciones/proyeccion.js';
 
 const root = document.getElementById('root');
 let currentView = null;
-let proyeccionDiv = null; // Guardamos referencia a la vista de proyección
+let proyeccionDiv = null;
+let cerrarSesionHandler = null;
 
 function mostrarVista(vista) {
     root.innerHTML = '';
@@ -15,386 +16,326 @@ function mostrarVista(vista) {
     currentView = vista;
 }
 
+async function cargarCSS(url) {
+    if (!document.querySelector(`link[href*="${url}"]`)) {
+        const css = document.createElement('link');
+        css.rel = 'stylesheet';
+        css.href = url;
+        document.head.appendChild(css);
+    }
+}
+
 function handleLogin(email, password) {
     if (email === 'admin@example.com' && password === '123456') {
-        proyeccionDiv = proyect(); // Creamos la vista de proyección
-
-        // Evento cerrar sesión
-        proyeccionDiv.addEventListener('cerrarSesion', () => {
-            mostrarVista(h_login(handleLogin));
-        });
-
-        // Evento para asistencia de profesores
-        document.addEventListener('mostrarAsistenciaProfesores', () => {
-            import('./vistacoordinador/asistencia-profesores/nivelprofe/nivelprofe.js')
-                .then(module => {
-                    const nivelProfeView = module.nivelprofe();
-                    
-                    // Configurar evento para volver a proyección
-                    nivelProfeView.addEventListener('volverProyeccion', () => {
-                        mostrarVista(proyeccionDiv);
-                    });
-
-                    if (!document.querySelector('link[href*="nivelprofe.css"]')) {
-                        const css = document.createElement('link');
-                        css.rel = 'stylesheet';
-                        css.href = './vistacoordinador/asistencia-profesores/nivelprofe/nivelprofe.css';
-                        document.head.appendChild(css);
-                    }
-
-                    mostrarVista(nivelProfeView);
-                })
-                .catch(error => {
-                    console.error('Error al cargar nivelprofe.js:', error);
-                });
-        });
-
-        // Evento para grados de profesores
-        document.addEventListener('mostrarGradoProfe', (e) => {
-            import('./vistacoordinador/asistencia-profesores/gradoprofe/gradoprofe.js')
-                .then(module => {
-                    const gradoProfeView = module.gradoprofe(e.detail.nivelSeleccionado);
-                    
-                    // Configurar evento para volver a nivelprofe
-                    gradoProfeView.addEventListener('volverNivelProfe', () => {
-                        import('./vistacoordinador/asistencia-profesores/nivelprofe/nivelprofe.js')
-                            .then(module => {
-                                const nivelProfeView = module.nivelprofe();
-                                
-                                // Reconfigurar evento para volver a proyección
-                                nivelProfeView.addEventListener('volverProyeccion', () => {
-                                    mostrarVista(proyeccionDiv);
-                                });
-
-                                mostrarVista(nivelProfeView);
-                            });
-                    });
-
-                    if (!document.querySelector('link[href*="gradoprofe.css"]')) {
-                        const css = document.createElement('link');
-                        css.rel = 'stylesheet';
-                        css.href = './vistacoordinador/asistencia-profesores/gradoprofe/gradoprofe.css';
-                        document.head.appendChild(css);
-                    }
-
-                    mostrarVista(gradoProfeView);
-                })
-                .catch(error => {
-                    console.error('Error al cargar gradoprofe.js:', error);
-                });
-        });
-
-        // Evento para proyección semanal
-        document.addEventListener('mostrarProyeccionEst', (e) => {
-            import('./vistacoordinador/asistencia-profesores/proyeccionest/proyeccionest.js')
-                .then(module => {
-                    const proyeccionEstView = module.proyeccionest(e.detail);
-                    
-                    // Configurar evento para volver a gradoprofe
-                    proyeccionEstView.addEventListener('volverGradoProfe', () => {
-                        import('./vistacoordinador/asistencia-profesores/gradoprofe/gradoprofe.js')
-                            .then(module => {
-                                const gradoProfeView = module.gradoprofe(e.detail.grado);
-                                
-                                // Reconfigurar eventos de navegación
-                                gradoProfeView.addEventListener('volverNivelProfe', () => {
-                                    import('./vistacoordinador/asistencia-profesores/nivelprofe/nivelprofe.js')
-                                        .then(module => {
-                                            const nivelProfeView = module.nivelprofe();
-                                            
-                                            nivelProfeView.addEventListener('volverProyeccion', () => {
-                                                mostrarVista(proyeccionDiv);
-                                            });
-
-                                            mostrarVista(nivelProfeView);
-                                        });
-                                });
-
-                                mostrarVista(gradoProfeView);
-                            });
-                    });
-
-                    if (!document.querySelector('link[href*="proyeccionest.css"]')) {
-                        const css = document.createElement('link');
-                        css.rel = 'stylesheet';
-                        css.href = './vistacoordinador/asistencia-profesores/proyeccionest/proyeccionest.css';
-                        document.head.appendChild(css);
-                    }
-
-                    mostrarVista(proyeccionEstView);
-                })
-                .catch(error => {
-                    console.error('Error al cargar proyeccionest.js:', error);
-                });
-        });
-
-        // Evento para Eliminar Profesores - Implementación corregida
-        document.addEventListener('mostrarEliminarProfesor', () => {
-            import('./vistacoordinador/eliminarprofesor/niveleliminar/nivleliminar.js')
-                .then(module => {
-                    const nivelEliminarView = module.niveleliminar();
-                    
-                    // Configurar evento para volver a proyección
-                    nivelEliminarView.addEventListener('volverProyeccion', () => {
-                        mostrarVista(proyeccionDiv);
-                    });
-
-                    // Configurar evento para mostrar profesores a eliminar
-                    nivelEliminarView.addEventListener('mostrarProfeEliminar', (e) => {
-                        import('./vistacoordinador/eliminarprofesor/profeeliminar/profeeliminar.js')
-                            .then(module => {
-                                const profeEliminarView = module.profeeliminar(e.detail.nivelSeleccionado);
-                                
-                                // Configurar evento para volver a niveleliminar
-                                profeEliminarView.addEventListener('volverNivelEliminar', () => {
-                                    mostrarVista(nivelEliminarView);
-                                });
-
-                                // Cargar CSS si no está cargado
-                                if (!document.querySelector('link[href*="profeeliminar.css"]')) {
-                                    const css = document.createElement('link');
-                                    css.rel = 'stylesheet';
-                                    css.href = './vistacoordinador/eliminarprofesor/profeeliminar/profeeliminar.css';
-                                    document.head.appendChild(css);
-                                }
-
-                                mostrarVista(profeEliminarView);
-                            })
-                            .catch(error => {
-                                console.error('Error al cargar profeeliminar.js:', error);
-                            });
-                    });
-
-                    // Cargar CSS si no está cargado
-                    if (!document.querySelector('link[href*="niveleliminar.css"]')) {
-                        const css = document.createElement('link');
-                        css.rel = 'stylesheet';
-                        css.href = './vistacoordinador/eliminarprofesor/niveleliminar/niveleliminar.css';
-                        document.head.appendChild(css);
-                    }
-
-                    mostrarVista(nivelEliminarView);
-                })
-                .catch(error => {
-                    console.error('Error al cargar nivleliminar.js:', error);
-                });
-        });
-        // Evento para Asistencia por Niveles
-document.addEventListener('mostrarAsistenciaNiveles', () => {
-    import('./vistacoordinador/asistencia-niveles/nivelesasis/nivelesasis.js')
-        .then(module => {
-            const nivelesAsisView = module.nivelesasis();
-            
-            nivelesAsisView.addEventListener('volverProyeccion', () => {
-                mostrarVista(proyeccionDiv);
-            });
-
-            // Evento para mostrar grados
-            nivelesAsisView.addEventListener('mostrarGradoAsis', (e) => {
-                import('./vistacoordinador/asistencia-niveles/gradosasis/gradosasis.js')
-                    .then(module => {
-                        const gradoAsisView = module.gradosasis(e.detail.nivelSeleccionado);
-                        
-                        gradoAsisView.addEventListener('volverNivelesAsis', () => {
-                            mostrarVista(nivelesAsisView);
-                        });
-
-                        if (!document.querySelector('link[href*="gradoasis.css"]')) {
-                            const css = document.createElement('link');
-                            css.rel = 'stylesheet';
-                            css.href = './vistacoordinador/asistencia-niveles/gradosasis/gradoasis.css';
-                            document.head.appendChild(css);
-                        }
-
-                        mostrarVista(gradoAsisView);
-                    })
-                    .catch(error => {
-                        console.error('Error al cargar gradosasis.js:', error);
-                    });
-            });
-            // Evento para mostrar estadísticas de grado
-document.addEventListener('mostrarViewEsta', (e) => {
-    import('./vistacoordinador/asistencia-niveles/viewsniveles/viewesta.js')
-        .then(module => {
-            const viewEstaView = module.viewesta(e.detail);
-            
-            // Configurar evento para volver a gradosasis
-            viewEstaView.addEventListener('volverGradosAsis', () => {
-                import('./vistacoordinador/asistencia-niveles/gradosasis/gradosasis.js')
-                    .then(module => {
-                        const gradoAsisView = module.gradosasis(e.detail.nivel);
-                        
-                        gradoAsisView.addEventListener('volverNivelesAsis', () => {
-                            import('./vistacoordinador/asistencia-niveles/nivelesasis/nivelesasis.js')
-                                .then(module => {
-                                    const nivelesAsisView = module.nivelesasis();
-                                    
-                                    nivelesAsisView.addEventListener('volverProyeccion', () => {
-                                        mostrarVista(proyeccionDiv);
-                                    });
-
-                                    mostrarVista(nivelesAsisView);
-                                });
-                        });
-
-                        mostrarVista(gradoAsisView);
-                    });
-            });
-
-            if (!document.querySelector('link[href*="viewesta.css"]')) {
-                const css = document.createElement('link');
-                css.rel = 'stylesheet';
-                css.href = './vistacoordinador/asistencia-niveles/viewsniveles/viewesta.css';
-                document.head.appendChild(css);
-            }
-
-            mostrarVista(viewEstaView);
-        })
-        .catch(error => {
-            console.error('Error al cargar viewesta.js:', error);
-        });
-});
-
-            if (!document.querySelector('link[href*="nivelesasis.css"]')) {
-                const css = document.createElement('link');
-                css.rel = 'stylesheet';
-                css.href = './vistacoordinador/asistencia-niveles/nivelesasis/nivelesasis.css';
-                document.head.appendChild(css);
-            }
-
-            mostrarVista(nivelesAsisView);
-        })
-        .catch(error => {
-            console.error('Error al cargar nivelesasis.js:', error);
-        });
-});
-// Evento para Agregar Profesor
-document.addEventListener('mostrarAgregarProfesor', () => {
-    import('./vistacoordinador/agregar-profesor/nivelagregar/nivelagregar.js')
-        .then(module => {
-            const nivelAgregarView = module.nivelagregar();
-            
-            nivelAgregarView.addEventListener('volverProyeccion', () => {
-                mostrarVista(proyeccionDiv);
-            });
-
-            // Evento para mostrar grados
-            nivelAgregarView.addEventListener('mostrarGradoAgregar', (e) => {
-                import('./vistacoordinador/agregar-profesor/gradoagregar/gradoagregar.js')
-                    .then(module => {
-                        const gradoAgregarView = module.gradoagregar(e.detail.nivelSeleccionado);
-                        
-                        gradoAgregarView.addEventListener('volverNivelAgregar', () => {
-                            mostrarVista(nivelAgregarView);
-                        });
-
-                        // Evento para mostrar formulario de agregar
-                        gradoAgregarView.addEventListener('mostrarAgregarAlumno', (e) => {
-                            import('./vistacoordinador/agregar-profesor/agregaralumno/agregaralumno.js')
-                                .then(module => {
-                                    const agregarAlumnoView = module.agregaralumno(e.detail);
-                                    
-                                    agregarAlumnoView.addEventListener('volverGradoAgregar', () => {
-                                        mostrarVista(gradoAgregarView);
-                                    });
-
-                                    if (!document.querySelector('link[href*="agregaralumno.css"]')) {
-                                        const css = document.createElement('link');
-                                        css.rel = 'stylesheet';
-                                        css.href = './vistacoordinador/agregar-profesor/agregaralumno/agregaralumno.css';
-                                        document.head.appendChild(css);
-                                    }
-
-                                    mostrarVista(agregarAlumnoView);
-                                });
-                        });
-
-                        if (!document.querySelector('link[href*="gradoagregar.css"]')) {
-                            const css = document.createElement('link');
-                            css.rel = 'stylesheet';
-                            css.href = './vistacoordinador/agregar-profesor/gradoagregar/gradoagregar.css';
-                            document.head.appendChild(css);
-                        }
-
-                        mostrarVista(gradoAgregarView);
-                    });
-            });
-
-            if (!document.querySelector('link[href*="nivelagregar.css"]')) {
-                const css = document.createElement('link');
-                css.rel = 'stylesheet';
-                css.href = './vistacoordinador/agregar-profesor/nivelagregar/nivelagregar.css';
-                document.head.appendChild(css);
-            }
-
-            mostrarVista(nivelAgregarView);
-        })
-        .catch(error => {
-            console.error('Error al cargar nivelagregar.js:', error);
-        });
-});
-
-        // Cargar CSS de proyección
-        if (!document.querySelector('link[href*="proyeccion.css"]')) {
-            const css = document.createElement('link');
-            css.rel = 'stylesheet';
-            css.href = './vistacoordinador/proyecciones/proyeccion.css';
-            document.head.appendChild(css);
+        // Limpiar listener anterior si existe
+        if (cerrarSesionHandler) {
+            document.removeEventListener('cerrarSesion', cerrarSesionHandler);
         }
 
+        // Crear nueva vista de proyección
+        proyeccionDiv = proyect();
+
+        // Configurar handler para cerrar sesión
+        cerrarSesionHandler = () => {
+            console.log('Cerrando sesión...');
+            mostrarVista(h_login(handleLogin));
+        };
+        document.addEventListener('cerrarSesion', cerrarSesionHandler);
+
+        // Configurar todos los manejadores de eventos
+        configurarManejadoresEventos();
+
+        // Cargar CSS de proyección
+        cargarCSS('./vistacoordinador/proyecciones/proyeccion.css');
         mostrarVista(proyeccionDiv);
     } else {
         alert('Correo o contraseña incorrectos');
     }
 }
 
-// Manejo de recuperación de contraseña
-document.addEventListener('mostrarRecuperacion', () => {
-    import('./recuperar/ingcorreo/ingcorreo.js')
-        .then(module => {
-            const ingcorreoView = module.ingcorreo();
-            ingcorreoView.addEventListener('mostrarLogin', () => {
-                mostrarVista(h_login(handleLogin));
-            });
-            ingcorreoView.addEventListener('mostrarCodigo', () => {
-                cargarIngCodigo();
-            });
-            mostrarVista(ingcorreoView);
-        })
-        .catch(error => {
-            console.error('Error al cargar ingcorreo:', error);
-        });
-});
+function configurarManejadoresEventos() {
+    // Asistencia de Profesores
+    document.addEventListener('mostrarAsistenciaProfesores', async () => {
+        try {
+            const { nivelprofe } = await import('./vistacoordinador/asistencia-profesores/nivelprofe/nivelprofe.js');
+            const view = nivelprofe();
+            view.addEventListener('volverProyeccion', () => mostrarVista(proyeccionDiv));
+            await cargarCSS('./vistacoordinador/asistencia-profesores/nivelprofe/nivelprofe.css');
+            mostrarVista(view);
+        } catch (error) {
+            console.error('Error al cargar nivelprofe:', error);
+        }
+    });
 
-function cargarIngCodigo() {
-    import('./recuperar/ingcodigo/ingcodigo.js')
-        .then(module => {
-            const ingcodigoView = module.ingcodigo();
-            ingcodigoView.addEventListener('mostrarCorreo', () => {
-                document.dispatchEvent(new CustomEvent('mostrarRecuperacion'));
+    // Grado de Profesores
+    document.addEventListener('mostrarGradoProfe', async (e) => {
+        try {
+            const { gradoprofe } = await import('./vistacoordinador/asistencia-profesores/gradoprofe/gradoprofe.js');
+            const view = gradoprofe(e.detail.nivelSeleccionado);
+            
+            view.addEventListener('volverNivelProfe', async () => {
+                const { nivelprofe } = await import('./vistacoordinador/asistencia-profesores/nivelprofe/nivelprofe.js');
+                const nivelView = nivelprofe();
+                nivelView.addEventListener('volverProyeccion', () => mostrarVista(proyeccionDiv));
+                mostrarVista(nivelView);
             });
-            ingcodigoView.addEventListener('mostrarCambioContra', () => {
-                cargarCambioContra();
+
+            await cargarCSS('./vistacoordinador/asistencia-profesores/gradoprofe/gradoprofe.css');
+            mostrarVista(view);
+        } catch (error) {
+            console.error('Error al cargar gradoprofe:', error);
+        }
+    });
+
+    // Proyección Estudiantil
+    document.addEventListener('mostrarProyeccionEst', async (e) => {
+        try {
+            const { proyeccionest } = await import('./vistacoordinador/asistencia-profesores/proyeccionest/proyeccionest.js');
+            const view = proyeccionest(e.detail);
+            
+            view.addEventListener('volverGradoProfe', async () => {
+                const { gradoprofe } = await import('./vistacoordinador/asistencia-profesores/gradoprofe/gradoprofe.js');
+                const gradoView = gradoprofe(e.detail.grado);
+                
+                gradoView.addEventListener('volverNivelProfe', async () => {
+                    const { nivelprofe } = await import('./vistacoordinador/asistencia-profesores/nivelprofe/nivelprofe.js');
+                    const nivelView = nivelprofe();
+                    nivelView.addEventListener('volverProyeccion', () => mostrarVista(proyeccionDiv));
+                    mostrarVista(nivelView);
+                });
+
+                mostrarVista(gradoView);
             });
-            mostrarVista(ingcodigoView);
-        })
-        .catch(error => {
-            console.error('Error al cargar ingcodigo:', error);
-        });
+
+            await cargarCSS('./vistacoordinador/asistencia-profesores/proyeccionest/proyeccionest.css');
+            mostrarVista(view);
+        } catch (error) {
+            console.error('Error al cargar proyeccionest:', error);
+        }
+    });
+
+    // Eliminar Profesor
+    document.addEventListener('mostrarEliminarProfesor', async () => {
+        try {
+            const { niveleliminar } = await import('./vistacoordinador/eliminarprofesor/niveleliminar/nivleliminar.js');
+            const view = niveleliminar();
+            
+            view.addEventListener('volverProyeccion', () => mostrarVista(proyeccionDiv));
+            view.addEventListener('mostrarProfeEliminar', async (e) => {
+                try {
+                    const { profeeliminar } = await import('./vistacoordinador/eliminarprofesor/profeeliminar/profeeliminar.js');
+                    const profeView = profeeliminar(e.detail.nivelSeleccionado);
+                    
+                    profeView.addEventListener('volverNivelEliminar', () => {
+                        mostrarVista(view);
+                    });
+
+                    await cargarCSS('./vistacoordinador/eliminarprofesor/profeeliminar/profeeliminar.css');
+                    mostrarVista(profeView);
+                } catch (error) {
+                    console.error('Error al cargar profeeliminar:', error);
+                }
+            });
+
+            await cargarCSS('./vistacoordinador/eliminarprofesor/niveleliminar/niveleliminar.css');
+            mostrarVista(view);
+        } catch (error) {
+            console.error('Error al cargar niveleliminar:', error);
+        }
+    });
+
+    // Asistencia Niveles
+    document.addEventListener('mostrarAsistenciaNiveles', async () => {
+        try {
+            const { nivelesasis } = await import('./vistacoordinador/asistencia-niveles/nivelesasis/nivelesasis.js');
+            const view = nivelesasis();
+            
+            view.addEventListener('volverProyeccion', () => mostrarVista(proyeccionDiv));
+            view.addEventListener('mostrarGradoAsis', async (e) => {
+                try {
+                    const { gradosasis } = await import('./vistacoordinador/asistencia-niveles/gradosasis/gradosasis.js');
+                    const gradoView = gradosasis(e.detail.nivelSeleccionado);
+                    
+                    gradoView.addEventListener('volverNivelesAsis', () => {
+                        mostrarVista(view);
+                    });
+
+                    await cargarCSS('./vistacoordinador/asistencia-niveles/gradosasis/gradoasis.css');
+                    mostrarVista(gradoView);
+                } catch (error) {
+                    console.error('Error al cargar gradosasis:', error);
+                }
+            });
+
+            await cargarCSS('./vistacoordinador/asistencia-niveles/nivelesasis/nivelesasis.css');
+            mostrarVista(view);
+        } catch (error) {
+            console.error('Error al cargar nivelesasis:', error);
+        }
+    });
+
+    // Agregar Profesor
+    document.addEventListener('mostrarAgregarProfesor', async () => {
+        try {
+            const { nivelagregar } = await import('./vistacoordinador/agregar-profesor/nivelagregar/nivelagregar.js');
+            const view = nivelagregar();
+            
+            view.addEventListener('volverProyeccion', () => mostrarVista(proyeccionDiv));
+            view.addEventListener('mostrarGradoAgregar', async (e) => {
+                try {
+                    const { gradoagregar } = await import('./vistacoordinador/agregar-profesor/gradoagregar/gradoagregar.js');
+                    const gradoView = gradoagregar(e.detail.nivelSeleccionado);
+                    
+                    gradoView.addEventListener('volverNivelAgregar', () => {
+                        mostrarVista(view);
+                    });
+
+                    gradoView.addEventListener('mostrarAgregarAlumno', async (e) => {
+                        try {
+                            const { agregaralumno } = await import('./vistacoordinador/agregar-profesor/agregaralumno/agregaralumno.js');
+                            const alumnoView = agregaralumno(e.detail);
+                            
+                            alumnoView.addEventListener('volverGradoAgregar', () => {
+                                mostrarVista(gradoView);
+                            });
+
+                            await cargarCSS('./vistacoordinador/agregar-profesor/agregaralumno/agregaralumno.css');
+                            mostrarVista(alumnoView);
+                        } catch (error) {
+                            console.error('Error al cargar agregaralumno:', error);
+                        }
+                    });
+
+                    await cargarCSS('./vistacoordinador/agregar-profesor/gradoagregar/gradoagregar.css');
+                    mostrarVista(gradoView);
+                } catch (error) {
+                    console.error('Error al cargar gradoagregar:', error);
+                }
+            });
+
+            await cargarCSS('./vistacoordinador/agregar-profesor/nivelagregar/nivelagregar.css');
+            mostrarVista(view);
+        } catch (error) {
+            console.error('Error al cargar nivelagregar:', error);
+        }
+    });
+
+    // Asistencia Grado (Estudiantes)
+    document.addEventListener('mostrarAsistenciaGrado', async (e) => {
+        try {
+            const view = asiscuadro(e.detail.nivelSeleccionado);
+            
+            view.addEventListener('volverNiveles', async () => {
+                const nivelesView = niveles();
+                nivelesView.addEventListener('volverProyeccion', () => mostrarVista(proyeccionDiv));
+                mostrarVista(nivelesView);
+            });
+
+            await cargarCSS('./views/asistenciavw/asistencia.css');
+            mostrarVista(view);
+        } catch (error) {
+            console.error('Error al cargar asistencia:', error);
+        }
+    });
+
+    // Estadísticas Generales
+    document.addEventListener('mostrarEstadisticasGenerales', async () => {
+        try {
+            const view = estg();
+            
+            view.addEventListener('volverNiveles', async () => {
+                const nivelesView = niveles();
+                nivelesView.addEventListener('volverProyeccion', () => mostrarVista(proyeccionDiv));
+                mostrarVista(nivelesView);
+            });
+
+            view.addEventListener('mostrarIndividual', (e) => {
+                const individualView = individual(e.detail.grado);
+                
+                individualView.addEventListener('volverEstadisticas', () => {
+                    mostrarVista(view);
+                });
+
+                cargarCSS('./estadisticas/individualest/individual.css');
+                mostrarVista(individualView);
+            });
+
+            await cargarCSS('./estadisticas/generalest/estgeneral.css');
+            mostrarVista(view);
+        } catch (error) {
+            console.error('Error al cargar estadísticas:', error);
+        }
+    });
+
+    // Asistencia Estudiantes
+    document.addEventListener('mostrarAsistenciaEstudiantes', async () => {
+        try {
+            const view = niveles();
+            
+            view.addEventListener('volverProyeccion', () => mostrarVista(proyeccionDiv));
+            view.addEventListener('mostrarEstadisticasGenerales', () => {
+                document.dispatchEvent(new CustomEvent('mostrarEstadisticasGenerales'));
+            });
+
+            view.addEventListener('mostrarAsistenciaGrado', (e) => {
+                document.dispatchEvent(new CustomEvent('mostrarAsistenciaGrado', { detail: e.detail }));
+            });
+
+            await cargarCSS('./views/classvw/niveles.css');
+            mostrarVista(view);
+        } catch (error) {
+            console.error('Error al cargar niveles:', error);
+        }
+    });
 }
 
-function cargarCambioContra() {
-    import('./recuperar/cambiocontra/cambiocontra.js')
-        .then(module => {
-            const cambiocontraView = module.cambiocontra();
-            cambiocontraView.addEventListener('mostrarLogin', () => {
-                mostrarVista(h_login(handleLogin));
-            });
-            mostrarVista(cambiocontraView);
-        })
-        .catch(error => {
-            console.error('Error al cargar cambiocontra:', error);
+// Manejo de recuperación de contraseña
+document.addEventListener('mostrarRecuperacion', async () => {
+    try {
+        const { ingcorreo } = await import('./recuperar/ingcorreo/ingcorreo.js');
+        const view = ingcorreo();
+        view.addEventListener('mostrarLogin', () => {
+            mostrarVista(h_login(handleLogin));
         });
+        view.addEventListener('mostrarCodigo', () => {
+            cargarIngCodigo();
+        });
+        await cargarCSS('./recuperar/ingcorreo/ingcorreo.css');
+        mostrarVista(view);
+    } catch (error) {
+        console.error('Error al cargar ingcorreo:', error);
+    }
+});
+
+async function cargarIngCodigo() {
+    try {
+        const { ingcodigo } = await import('./recuperar/ingcodigo/ingcodigo.js');
+        const view = ingcodigo();
+        view.addEventListener('mostrarCorreo', () => {
+            document.dispatchEvent(new CustomEvent('mostrarRecuperacion'));
+        });
+        view.addEventListener('mostrarCambioContra', () => {
+            cargarCambioContra();
+        });
+        await cargarCSS('./recuperar/ingcodigo/ingcodigo.css');
+        mostrarVista(view);
+    } catch (error) {
+        console.error('Error al cargar ingcodigo:', error);
+    }
+}
+
+async function cargarCambioContra() {
+    try {
+        const { cambiocontra } = await import('./recuperar/cambiocontra/cambiocontra.js');
+        const view = cambiocontra();
+        view.addEventListener('mostrarLogin', () => {
+            mostrarVista(h_login(handleLogin));
+        });
+        await cargarCSS('./recuperar/cambiocontra/cambiocontra.css');
+        mostrarVista(view);
+    } catch (error) {
+        console.error('Error al cargar cambiocontra:', error);
+    }
 }
 
 // Mostrar login al inicio

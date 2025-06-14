@@ -1,4 +1,3 @@
-// Importaciones de todas las ventanas modales
 import { crearVentanaUniforme } from '../../ventanas/uniforme/unforme.js';
 import { crearVentanaRedactarCorreo } from '../../ventanas/redactarcorreo/redacorreo.js';
 import { crearVentanaEliminar } from '../../ventanas/eliminaralumno/eliminaralumno.js';
@@ -6,11 +5,22 @@ import { crearVentanaCorreoAlumno } from '../../ventanas/correoalumno/correoalum
 import { crearVentanaAgregarAlumno } from '../../ventanas/agregaralumno/agregaralumno.js';
 import { calnd } from '../../calendario/calendario/calendario.js';
 
-export function asiscuadro(nombreCurso = 'Curso') {
-    const container = document.createElement('div');
-    container.className = 'asistencia-container';
+function cambiarVista(nuevaVista) {
+    const root = document.getElementById('root');
+    if (root) {
+        root.innerHTML = '';
+        root.appendChild(nuevaVista);
+    }
+}
 
-    // Título principal (dinámico)
+export function asiscuadro({ nivelSeleccionado }) {
+    const container = document.createElement('div');
+    container.className = 'asistencia-container asistencia-coordinador';
+
+    const grande = document.createElement('div');
+    grande.className = 'asistencia-grande';
+    container.appendChild(grande);
+
     const titleContainer = document.createElement('div');
     titleContainer.className = 'title-container';
 
@@ -20,13 +30,12 @@ export function asiscuadro(nombreCurso = 'Curso') {
     logoImg.className = 'logosg-img';
 
     const title = document.createElement('h1');
-    title.textContent = nombreCurso;
+    title.textContent = nivelSeleccionado || 'Asistencia';
 
     titleContainer.appendChild(logoImg);
     titleContainer.appendChild(title);
-    container.appendChild(titleContainer);
+    grande.appendChild(titleContainer);
 
-    // Header con botones
     const headerContainer = document.createElement('div');
     headerContainer.className = 'header-container';
 
@@ -36,12 +45,13 @@ export function asiscuadro(nombreCurso = 'Curso') {
     const emailHeaderBtn = document.createElement('button');
     emailHeaderBtn.className = 'email-header-btn';
     const emailIcon = document.createElement('img');
-    emailIcon.src = 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%23000000"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>';
+    emailIcon.src = './services/img/iconoemail.png';
     emailIcon.alt = 'Email';
     emailHeaderBtn.appendChild(emailIcon);
 
     const headerTitle = document.createElement('h2');
     headerTitle.className = 'header-title';
+    headerTitle.textContent = 'Lista de Estudiantes';
 
     leftHeader.appendChild(emailHeaderBtn);
     leftHeader.appendChild(headerTitle);
@@ -52,14 +62,16 @@ export function asiscuadro(nombreCurso = 'Curso') {
 
     headerContainer.appendChild(leftHeader);
     headerContainer.appendChild(forAllBtn);
-    container.appendChild(headerContainer);
+    grande.appendChild(headerContainer);
 
     const alumnosContainer = document.createElement('div');
     alumnosContainer.className = 'alumnos-container';
 
     let alumnos = [
         { nombre: 'Sofia Adali Garcia Perez', correo: 'correo1@scl.edu.gt', uniforme: false, estado: 0 },
-        { nombre: 'Nombre Completo 2', correo: 'correo2@scl.edu.gt', uniforme: true, estado: 1 }
+        { nombre: 'Juan Carlos López Martínez', correo: 'correo2@scl.edu.gt', uniforme: true, estado: 1 },
+        { nombre: 'María José Ramírez González', correo: 'correo3@scl.edu.gt', uniforme: true, estado: 2 },
+        { nombre: 'Luis Pedro Hernández Díaz', correo: 'correo4@scl.edu.gt', uniforme: false, estado: 3 }
     ];
 
     const coloresEstado = ['#ffffff', '#4CAF50', '#FF9800', '#F44336'];
@@ -81,15 +93,11 @@ export function asiscuadro(nombreCurso = 'Curso') {
             formularioBtn.className = 'formulario-btn';
             formularioBtn.textContent = 'Ir a Formulario';
             formularioBtn.addEventListener('click', () => {
-                const calendario = calnd();
+                const calendario = calnd(alumno.nombre);
                 calendario.addEventListener('volverAsistencia', () => {
-                    mostrarVista(container);
+                    cambiarVista(container);
                 });
-                const root = document.getElementById('root');
-                if (root) {
-                    root.innerHTML = '';
-                    root.appendChild(calendario);
-                }
+                cambiarVista(calendario);
             });
             nombreWrapper.appendChild(formularioBtn);
 
@@ -125,14 +133,13 @@ export function asiscuadro(nombreCurso = 'Curso') {
             accionesContainer.appendChild(estadoBtn);
             nombreWrapper.appendChild(accionesContainer);
 
-            // --- NUEVO BLOQUE: iconos debajo del botón formulario ---
             const accionesCorreo = document.createElement('div');
             accionesCorreo.className = 'acciones-correo';
 
             const emailBtn = document.createElement('button');
             emailBtn.className = 'email-btn';
             const emailBtnIcon = document.createElement('img');
-            emailBtnIcon.src = 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%23000000"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>';
+            emailBtnIcon.src = './services/img/iconoemail.png';
             emailBtnIcon.alt = 'Email';
             emailBtn.appendChild(emailBtnIcon);
             emailBtn.addEventListener('click', () => {
@@ -143,25 +150,22 @@ export function asiscuadro(nombreCurso = 'Curso') {
             const uniformeBtn = document.createElement('button');
             uniformeBtn.className = 'uniforme-btn';
             const shirtIcon = document.createElement('img');
-            shirtIcon.src = 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%230066cc"><path d="M16 6v-2c0-1.1-.9-2-2-2h-4c-1.1 0-2 .9-2 2v2h-5v4c0 1.1.9 2 2 2h2v8c0 1.1.9 2 2 2h4c1.1 0 2-.9 2-2v-8h2c1.1 0 2-.9 2-2v-4h-5zm-6-2h4v2h-4v-2zm6 16h-4v-6h4v6z"/></svg>';
+            shirtIcon.src = './services/img/iconouni.png';
             shirtIcon.alt = 'Uniforme';
             shirtIcon.style.filter = alumno.uniforme ? 'none' : 'grayscale(100%) opacity(0.5)';
             uniformeBtn.appendChild(shirtIcon);
             uniformeBtn.addEventListener('click', () => {
                 alumno.uniforme = !alumno.uniforme;
-                shirtIcon.style.filter = alumno.uniforme ? 'none' : 'grayscale(100%) opacity(0.5)';
+                shirtIcon.style.opacity = alumno.uniforme ? '1' : '0.5';
                 const modal = crearVentanaUniforme();
                 document.body.appendChild(modal);
             });
-
             accionesCorreo.appendChild(emailBtn);
             accionesCorreo.appendChild(uniformeBtn);
             nombreWrapper.appendChild(accionesCorreo);
-            // -------------------------------------------------------------
 
             alumnoDiv.appendChild(nombreWrapper);
 
-            // Mantengo correo debajo
             const correoWrapper = document.createElement('div');
             correoWrapper.className = 'correo-wrapper';
 
@@ -176,7 +180,7 @@ export function asiscuadro(nombreCurso = 'Curso') {
     }
 
     renderAlumnos();
-    container.appendChild(alumnosContainer);
+    grande.appendChild(alumnosContainer);
 
     const buttonsContainer = document.createElement('div');
     buttonsContainer.className = 'buttons-container';
@@ -194,7 +198,8 @@ export function asiscuadro(nombreCurso = 'Curso') {
     buttonsContainer.appendChild(addButton);
 
     const backButton = document.createElement('button');
-    backButton.textContent = 'Regresar';
+    backButton.className = "curso-btn";
+    backButton.textContent = "Regresar";
     backButton.addEventListener('click', () => {
         const eventoRegreso = new CustomEvent('volverNiveles', { bubbles: true });
         container.dispatchEvent(eventoRegreso);
@@ -204,9 +209,12 @@ export function asiscuadro(nombreCurso = 'Curso') {
     const saveButton = document.createElement('button');
     saveButton.textContent = 'Guardar';
     saveButton.className = 'primary';
+    saveButton.addEventListener('click', () => {
+        alert('Asistencia guardada correctamente');
+    });
     buttonsContainer.appendChild(saveButton);
 
-    container.appendChild(buttonsContainer);
+    grande.appendChild(buttonsContainer);
 
     emailHeaderBtn.addEventListener('click', () => {
         const modal = crearVentanaRedactarCorreo();

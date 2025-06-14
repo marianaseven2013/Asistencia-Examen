@@ -1,66 +1,55 @@
-import { asiscuadro } from '../asistenciavw/asistencia.js';
-
 function niveles() {
-    let nv_les = document.createElement('div');
-    nv_les.className = "niveles"; 
+    let contenedor = document.createElement('div');
+    contenedor.className = "niveles";
 
-    let welcome = document.createElement('div');
-    welcome.className = "cuadro-nivel";
+    let cuadroNivel = document.createElement('div');
+    cuadroNivel.className = "cuadro-nivel";
+    
+    let titulo = document.createElement('h1');
+    titulo.className = "welcomen";
+    titulo.textContent = "Asistencia de Estudiantes";
+    cuadroNivel.appendChild(titulo);
+    contenedor.appendChild(cuadroNivel);
 
-    let benw = document.createElement('div');
-    benw.className = "welcomen";
-    benw.innerText = "Bienvenido profesor...";
-    welcome.appendChild(benw);
-    nv_les.appendChild(welcome);
+    let btnEstadisticas = document.createElement('button');
+    btnEstadisticas.className = "distica";
+    btnEstadisticas.textContent = "Ver Estadísticas Generales";
+    btnEstadisticas.addEventListener('click', () => {
+        const evento = new CustomEvent('mostrarEstadisticasGenerales');
+        contenedor.dispatchEvent(evento);
+    });
+    contenedor.appendChild(btnEstadisticas);
 
-    let estad = document.createElement('button');
-    estad.className = "distica";
-    estad.innerText = "Estadísticas";
-    nv_les.appendChild(estad);
-
-    // Generación dinámica
-    const cursos = [
-        "IV COMPUTACION",
-        "V COMPUTACION",
-        "IV BIOLOGICAS",
-        "V BIOLOGICAS",
-        "IV PERITO",
-        "VI COMPUTACION",
-        "VI BIOLOGICAS"
-    ];
-
-    cursos.forEach((curso, index) => {
-        let btnCurso = document.createElement('button');
-        btnCurso.className = `curso-btn`;
-        btnCurso.innerText = curso;
-
-        // Enviamos evento al index.js
-        btnCurso.addEventListener('click', () => {
-            const eventoAsistencia = new CustomEvent('mostrarAsistencia', {
-                bubbles: true,
-                detail: { curso }
+        const niveles = ["Pre-Primaria", "Primaria", "Básicos", "Diversificado"];
+    
+    niveles.forEach(nivel => {
+        let boton = document.createElement('button');
+        boton.className = "curso-btn";
+        boton.textContent = nivel;
+        
+        boton.addEventListener('click', () => {
+            const evento = new CustomEvent('mostrarAsistenciaGrado', {
+                detail: { nivelSeleccionado: nivel },
+                bubbles: true
             });
-            nv_les.dispatchEvent(eventoAsistencia);
+            contenedor.dispatchEvent(evento);
         });
-
-        nv_les.appendChild(btnCurso);
+        
+        contenedor.appendChild(boton);
     });
 
-    let cerrar = document.createElement('button');
-    cerrar.className = "cerrar-sesion";
-    cerrar.innerText = "Cerrar Sesión (Regresar)";
-
-    cerrar.addEventListener('click', () => {
-        const event = new CustomEvent('cerrarSesion', {
-            bubbles: true,
-            detail: { action: 'logout' }
+    let botonRegresar = document.createElement('button');
+    botonRegresar.className = "curso-btn cerrar-sesion";
+    botonRegresar.textContent = "Regresar";
+    botonRegresar.addEventListener('click', () => {
+        const evento = new CustomEvent('volverProyeccion', {
+            bubbles: true
         });
-        nv_les.dispatchEvent(event);
+        contenedor.dispatchEvent(evento);
     });
+    contenedor.appendChild(botonRegresar);
 
-    nv_les.appendChild(cerrar);
-
-    return nv_les;
+    return contenedor;
 }
 
 export { niveles };

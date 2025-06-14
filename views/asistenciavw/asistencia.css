@@ -114,7 +114,7 @@
 .acciones-correo {
     display: flex;
     align-items: center;
-    gap: 8px; /* Ajuste del espacio entre los iconos */
+    gap: 8px;   
 }
 
 .email-btn, .uniforme-btn {
@@ -127,7 +127,7 @@
     width: 3rem;  
     height: 3rem;
     display: block;
-    margin: 0; /* <-- margen eliminado */
+    margin: 0; 
     margin-right: 3rem;
 }
 
@@ -212,8 +212,8 @@
 }
 
 .formulario-btn {
-    padding: 5px 10px;
-    background-color: #292b27;
+/*     padding: 15px 10px;
+ */ background-color: #292b27;
     box-shadow: 3px 2px 3px 2px rgb(191, 191, 191);
     color: white;
     border: none;
@@ -221,11 +221,13 @@
     cursor: pointer;
     font-size: 0.9em;
     margin-right: 8rem;
-    height: 2rem;
+    height: 2.5rem;
 }
 
 .formulario-btn:hover {
-    background-color: #88ce53;
+    background-color: #bec0bd;
+    box-shadow: 3px 2px 3px 2px rgb(83, 83, 83);
+    color: black;
 }
 
 .title-container {
@@ -239,4 +241,71 @@
 .logosg-img {
     width: 8rem;
     height: auto;
+}
+
+.asistencia-coordinador {
+    width: 100%;
+    max-width: none;
+    padding: 0;
+    background-color: transparent;
+    box-shadow: none;
+}
+
+.asistencia-coordinador .asistencia-grande {
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    padding: 2rem;
+    margin: 0 auto;
+    max-width: 1200px;
+}
+
+.asistencia-coordinador .title-container h1 {
+    color: #333;
+    font-size: 2rem;
+}
+
+.asistencia-coordinador .alumno-item {
+    background-color: white;
+    margin-bottom: 1rem;
+}
+
+.asistencia-coordinador .buttons-container {
+    margin-top: 2rem;
+    padding-top: 1rem;
+    border-top: 1px solid #ddd;
+}
+
+.uniforme-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    margin-right: 3rem; 
+}
+
+.uniforme-btn img {
+    width: 3rem;  
+    height: 3rem;
+    display: block;
+    transition: opacity 0.3s ease;
+    filter: drop-shadow(1px 1px 1px rgba(0,0,0,0.3)); 
+}
+
+.uniforme-btn:hover img {
+    opacity: 0.8;
+    transform: scale(1.05); 
+}
+
+.uniforme-btn img[style*="opacity: 0.5"] {
+    filter: grayscale(70%) opacity(0.5) drop-shadow(1px 1px 1px rgba(0,0,0,0.2));
+}
+
+.uniforme-btn img[style*="opacity: 1"] {
+    filter: none;
+}
+
+
+.asistencia-coordinador .uniforme-btn img {
+    width: 2.8rem; 
+    height: 2.8rem;
 }
