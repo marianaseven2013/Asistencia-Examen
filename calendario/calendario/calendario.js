@@ -10,12 +10,15 @@ function calnd(nombreAlumno = "Nombre Completo") {
     backButton.textContent = 'Regresar';
     backButton.className = 'btn-regresar';
     backButton.addEventListener('click', () => {
-        const event = new CustomEvent('volverAsistencia');
+        const event = new CustomEvent('volverAsistencia', {
+            bubbles: true,
+            composed: true
+        });
         cl_dar.dispatchEvent(event);
     });
 
     const nombre = document.createElement('h2');
-    nombre.textContent = nombreAlumno;  // 👈 Aquí usamos el parámetro recibido
+    nombre.textContent = nombreAlumno;
     nombre.className = 'titulo-nombre';
 
     const mesContainer = document.createElement('div');
@@ -41,7 +44,7 @@ function calnd(nombreAlumno = "Nombre Completo") {
 
     const thead = document.createElement('thead');
     const trHead = document.createElement('tr');
-    ['s1', 's2', 's3', 's4', 's5', 's6', 's7'].forEach(s => {
+    ['Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb'].forEach(s => {
         const th = document.createElement('th');
         th.textContent = s;
         trHead.appendChild(th);
@@ -68,7 +71,7 @@ function calnd(nombreAlumno = "Nombre Completo") {
                 const td = document.createElement('td');
                 td.className = 'cuadro';
 
-                if ((i === 0 && j < (primerDia === 0 ? 6 : primerDia - 1)) || dia > diasEnMes) {
+                if ((i === 0 && j < primerDia) || dia > diasEnMes) {
                     td.textContent = '';
                 } else {
                     td.textContent = dia;
