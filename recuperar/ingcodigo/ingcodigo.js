@@ -42,19 +42,45 @@ function ingcodigo() {
         ing_cod.dispatchEvent(event);
     });
 
-    botonEnviar.addEventListener('click', () => {
+    botonEnviar.addEventListener('click', async () => {
         const codigo = inputCodigo.value;
-        if(codigo){
-            alert("Código enviado: " + codigo);
+        const correo = localStorage.getItem('correoRecuperacion');
+    
+        if (!correo) {
+            alert("No se ha definido el correo. Regrese y repita el proceso.");
+            return;
+        }
+    
+        if (codigo) {
+            try {
+                const res = await fetch('http://localhost:3000/verificar-codigo', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ correo, codigo })
+                });
+    
+                const data = await res.json();
+                if (data.valido) {
+                    alert("Código verificado correctamente.");
+                } else {
+                    alert("Código incorrecto.");
+                }
+            } catch (err) {
+                console.error(err);
+                alert("Error al verificar el código.");
+            }
         } else {
             alert("Por favor ingrese el código.");
         }
     });
+    
 
     botonSeguir.addEventListener('click', () => {
         const event = new CustomEvent('mostrarCambioContra', { bubbles: true });
-        ing_cod.dispatchEvent(event);
+        document.dispatchEvent(event); // ✅ Este SÍ es el correcto
     });
+    
+    
 
     return ing_cod;
 }

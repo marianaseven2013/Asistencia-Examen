@@ -36,9 +36,18 @@ function nivelagregar() {
     botonRegresar.className = "nivel-boton boton-regresar";
     botonRegresar.textContent = "Regresar";
     botonRegresar.addEventListener('click', () => {
-        const evento = new CustomEvent('volverProyeccion', {
-            bubbles: true
-        });
+        try {
+            const evento = new CustomEvent('volverProyeccion', {
+                bubbles: true,
+                cancelable: true
+            });
+            if (!document.dispatchEvent(evento)) {
+                console.warn('El evento volverProyeccion fue cancelado');
+            }
+        } catch (error) {
+            console.error('Error al disparar evento:', error);
+        }
+    
         contenedor.dispatchEvent(evento);
     });
     grande.appendChild(botonRegresar);

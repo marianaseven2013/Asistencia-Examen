@@ -1,4 +1,4 @@
-function niveles() {
+function niveles(grados) {
     let contenedor = document.createElement('div');
     contenedor.className = "niveles";
 
@@ -20,21 +20,20 @@ function niveles() {
     });
     contenedor.appendChild(btnEstadisticas);
 
-        const niveles = ["Pre-Primaria", "Primaria", "Básicos", "Diversificado"];
-    
-    niveles.forEach(nivel => {
+    // Aquí se crean los botones según los grados recibidos
+    grados.forEach(grado => {
         let boton = document.createElement('button');
         boton.className = "curso-btn";
-        boton.textContent = nivel;
-        
+        boton.textContent = grado.grado;
+
         boton.addEventListener('click', () => {
             const evento = new CustomEvent('mostrarAsistenciaGrado', {
-                detail: { nivelSeleccionado: nivel },
+                detail: { gradoSeleccionado: grado },
                 bubbles: true
             });
             contenedor.dispatchEvent(evento);
         });
-        
+
         contenedor.appendChild(boton);
     });
 

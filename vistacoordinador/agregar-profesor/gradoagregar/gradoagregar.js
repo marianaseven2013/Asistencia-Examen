@@ -11,12 +11,12 @@ function gradoagregar(nivelSeleccionado) {
     contenedor.appendChild(titulo);
 
     // Grados por nivel (datos de ejemplo)
-    const gradosPorNivel = {
-        "Pre-Primaria": ["Pre-Kinder", "Kinder", "Prepa"],
-        "Primaria": ["1ro", "2do", "3ro", "4to", "5to", "6to"],
-        "Básicos": ["1ro", "2do", "3ro"],
-        "Diversificado": ["4to", "5to", "6to"]
-    };
+const gradosPorNivel = {
+    "Pre-Primaria": ["Pre-Kinder", "Kinder", "Prepa"],
+    "Primaria": ["1ro", "2do", "3ro", "4to", "5to", "6to"],
+    "Básicos": ["1ro", "2do", "3ro"],
+    "Diversificado": ["4to", "5to", "6to"] // Ajusta según tus necesidades
+  };
 
     const grados = gradosPorNivel[nivelSeleccionado] || [];
 

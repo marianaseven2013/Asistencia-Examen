@@ -77,15 +77,8 @@
     color: white;
 }
 
-.boton-agregar:hover {
-    background-color: #37b24d;
-}
-
 .boton-regresar {
     background-color: #6c757d;
     color: white;
 }
 
-.boton-regresar:hover {
-    background-color: #5a6268;
-}

@@ -28,11 +28,36 @@ function cambiocontra() {
     botonAceptar.innerText = "Aceptar";
     cuadroCambio.appendChild(botonAceptar);
 
-    botonAceptar.addEventListener('click', () => {
-        if (inputNueva.value === inputConfirmar.value && inputNueva.value !== "") {
-            alert("Contraseña cambiada exitosamente.");
-            const event = new CustomEvent('mostrarLogin', { bubbles: true });
-            cambioContainer.dispatchEvent(event);
+    botonAceptar.addEventListener('click', async () => {
+        const nuevaContrasena = inputNueva.value;
+        const confirmar = inputConfirmar.value;
+
+        if (nuevaContrasena === confirmar && nuevaContrasena !== "") {
+            // Recuperar correo desde localStorage
+            const correo = localStorage.getItem('correoRecuperacion');
+            if (!correo) {
+                alert("Correo no disponible. Debes realizar primero la recuperación.");
+                return;
+            }
+
+            try {
+                const res = await fetch('http://localhost:3000/cambiar-contrasena', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ correo, nuevaContrasena })
+                });
+
+                if (res.ok) {
+                    alert("Contraseña cambiada exitosamente.");
+                    const event = new CustomEvent('mostrarLogin', { bubbles: true });
+                    cambioContainer.dispatchEvent(event);
+                } else {
+                    alert("No se pudo cambiar la contraseña. Inténtalo de nuevo.");
+                }
+            } catch (err) {
+                alert("Error en la conexión con el servidor.");
+                console.error(err);
+            }
         } else {
             alert("Las contraseñas no coinciden o están vacías.");
         }
@@ -42,3 +67,4 @@ function cambiocontra() {
 }
 
 export { cambiocontra };
+

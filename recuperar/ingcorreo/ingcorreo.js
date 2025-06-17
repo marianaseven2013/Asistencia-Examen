@@ -36,24 +36,47 @@ function ingcorreo() {
     botonSeguir.className = "btn-seguir";
     botonSeguir.innerText = "Seguir";
     cuadrorec.appendChild(botonSeguir);
-
+    botonSeguir.addEventListener('click', () => {
+        const correo = localStorage.getItem('correoRecuperacion');
+        if (correo) {
+            const event = new CustomEvent('mostrarCodigo', { bubbles: true });
+            document.dispatchEvent(event);
+        } else {
+            alert("Primero debes enviar el código al correo.");
+        }
+    });
+    
+    
     botonCancelar.addEventListener('click', () => {
         const event = new CustomEvent('mostrarLogin', { bubbles: true });
         ing_co.dispatchEvent(event);
     });
 
-    botonEnviar.addEventListener('click', () => {
+
+    botonEnviar.addEventListener('click', async () => {
         const correo = inputCorreo.value;
-        if(correo){
-            alert("Se ha enviado un código al correo: " + correo);
+    
+        if (correo) {
+            try {
+                const res = await fetch('http://localhost:3000/enviar-codigo', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ correo })
+                });
+    
+                if (res.ok) {
+                    localStorage.setItem('correoRecuperacion', correo); // Guardamos correo
+                    alert("Se ha enviado un código al correo: " + correo);
+                } else {
+                    alert("No se pudo enviar el código. Inténtalo más tarde.");
+                }
+            } catch (error) {
+                console.error(error);
+                alert("Error de conexión con el servidor.");
+            }
         } else {
             alert("Por favor ingrese un correo válido.");
         }
-    });
-
-    botonSeguir.addEventListener('click', () => {
-        const event = new CustomEvent('mostrarCodigo', { bubbles: true });
-        ing_co.dispatchEvent(event);
     });
 
     return ing_co;
