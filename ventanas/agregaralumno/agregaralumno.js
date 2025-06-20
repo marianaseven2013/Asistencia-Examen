@@ -5,7 +5,6 @@ function crearVentanaAgregarAlumno() {
     const modalContenido = document.createElement('div');
     modalContenido.className = 'modal-contenido';
     
-    
     const header = document.createElement('div');
     header.className = 'modal-header';
     header.textContent = 'AGREGAR ALUMNO';
@@ -34,25 +33,45 @@ function crearVentanaAgregarAlumno() {
     btnAgregar.className = 'btn-agregar';
     btnAgregar.textContent = 'AGREGAR';
     
-    footer.appendChild(btnAgregar);
-    modalContenido.appendChild(footer);
+    const btnCancelar = document.createElement('button');
+    btnCancelar.className = 'btn-cancelar';
+    btnCancelar.textContent = 'CANCELAR';
     
+    // Acción al agregar
     btnAgregar.addEventListener('click', () => {
-        if (nombreInput.value.trim() === '' || correoInput.value.trim() === '') {
+        const nombre = nombreInput.value.trim();
+        const correo = correoInput.value.trim();
+
+        if (!nombre || !correo) {
             alert('Por favor complete todos los campos');
             return;
         }
-        alert(`Alumno ${nombreInput.value} agregado`);
+
+        // Emitir evento personalizado con los datos del alumno
+        const evento = new CustomEvent('nuevoAlumno', {
+            detail: {
+                nombre,
+                correo,
+                uniforme: false,
+                estado: 0
+            },
+            bubbles: true
+        });
+        modal.dispatchEvent(evento);
+
         document.body.removeChild(modal);
-        return {
-            nombre: nombreInput.value,
-            correo: correoInput.value,
-            uniforme: false,
-            estado: 0
-        };
     });
-    
+
+    // Cancelar cierra modal
+    btnCancelar.addEventListener('click', () => {
+        document.body.removeChild(modal);
+    });
+
+    footer.appendChild(btnAgregar);
+    footer.appendChild(btnCancelar);
+    modalContenido.appendChild(footer);
     modal.appendChild(modalContenido);
+
     return modal;
 }
 

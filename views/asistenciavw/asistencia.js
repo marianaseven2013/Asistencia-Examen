@@ -13,7 +13,7 @@ function cambiarVista(nuevaVista) {
     }
 }
 
-export function asiscuadro({ nivelSeleccionado }) {
+export function asiscuadro({ gradoId, nombreGrado }) {
     const container = document.createElement('div');
     container.className = 'asistencia-container asistencia-coordinador';
 
@@ -30,7 +30,7 @@ export function asiscuadro({ nivelSeleccionado }) {
     logoImg.className = 'logosg-img';
 
     const title = document.createElement('h1');
-    title.textContent = nivelSeleccionado || 'Asistencia';
+    title.textContent = nombreGrado || 'Asistencia';
 
     titleContainer.appendChild(logoImg);
     titleContainer.appendChild(title);
@@ -67,12 +67,29 @@ export function asiscuadro({ nivelSeleccionado }) {
     const alumnosContainer = document.createElement('div');
     alumnosContainer.className = 'alumnos-container';
 
-    let alumnos = [
-        { nombre: 'Sofia Adali Garcia Perez', correo: 'correo1@scl.edu.gt', uniforme: false, estado: 0 },
-        { nombre: 'Juan Carlos López Martínez', correo: 'correo2@scl.edu.gt', uniforme: true, estado: 1 },
-        { nombre: 'María José Ramírez González', correo: 'correo3@scl.edu.gt', uniforme: true, estado: 2 },
-        { nombre: 'Luis Pedro Hernández Díaz', correo: 'correo4@scl.edu.gt', uniforme: false, estado: 3 }
-    ];
+    let alumnos = [];
+    fetch('http://localhost:3000/obtenerAlumnosPorGrado', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ grado_id: gradoId })
+    })
+    .then(res => res.json())
+    .then(data => {
+        if (!data.alumnos) {
+            throw new Error("Respuesta no contiene alumnos");
+        }
+    
+        alumnos = data.alumnos.map(alumno => ({
+            ...alumno,
+            uniforme: false,
+            estado: 0
+        }));
+        renderAlumnos();
+    })
+    .catch(error => {
+        console.error('Error al cargar alumnos:', error);
+    });
+    
 
     const coloresEstado = ['#ffffff', '#4CAF50', '#FF9800', '#F44336'];
 
@@ -154,12 +171,15 @@ export function asiscuadro({ nivelSeleccionado }) {
             shirtIcon.alt = 'Uniforme';
             shirtIcon.style.filter = alumno.uniforme ? 'none' : 'grayscale(100%) opacity(0.5)';
             uniformeBtn.appendChild(shirtIcon);
+
             uniformeBtn.addEventListener('click', () => {
                 alumno.uniforme = !alumno.uniforme;
                 shirtIcon.style.opacity = alumno.uniforme ? '1' : '0.5';
-                const modal = crearVentanaUniforme();
+                
+                const modal = crearVentanaUniforme(alumno);     // <–– ahora recibe el objeto completo
                 document.body.appendChild(modal);
-            });
+              });
+            
             accionesCorreo.appendChild(emailBtn);
             accionesCorreo.appendChild(uniformeBtn);
             nombreWrapper.appendChild(accionesCorreo);
@@ -179,20 +199,50 @@ export function asiscuadro({ nivelSeleccionado }) {
         });
     }
 
-    renderAlumnos();
     grande.appendChild(alumnosContainer);
 
     const buttonsContainer = document.createElement('div');
     buttonsContainer.className = 'buttons-container';
 
+    // Declaración y uso correcto de addButton
     const addButton = document.createElement('button');
     addButton.textContent = 'Agregar Alumno';
     addButton.addEventListener('click', () => {
         const modal = crearVentanaAgregarAlumno();
         document.body.appendChild(modal);
+
+        const usuario_id = localStorage.getItem('usuario_id');
+
         modal.addEventListener('nuevoAlumno', (e) => {
-            alumnos.push(e.detail);
-            renderAlumnos();
+            const nuevo = e.detail;
+
+            fetch('http://localhost:3000/agregarAlumno', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    nombre: nuevo.nombre,
+                    correo: nuevo.correo,
+                    grado_id: gradoId,
+                    usuario_id: parseInt(usuario_id)
+                })
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.ok) {
+                    alumnos.push({
+                        nombre: nuevo.nombre,
+                        correo: nuevo.correo,
+                        uniforme: false,
+                        estado: 0
+                    });
+                    renderAlumnos();
+                } else {
+                    alert('Error al guardar el alumno');
+                }
+            })
+            .catch(err => {
+                console.error('Error al guardar alumno:', err);
+            });
         });
     });
     buttonsContainer.appendChild(addButton);
@@ -210,8 +260,30 @@ export function asiscuadro({ nivelSeleccionado }) {
     saveButton.textContent = 'Guardar';
     saveButton.className = 'primary';
     saveButton.addEventListener('click', () => {
-        alert('Asistencia guardada correctamente');
-    });
+        const asistencias = alumnos.map(al => ({
+          alumnos_id: al.id,
+          grados_id: gradoId,
+          estado: ['NO vino','Vino','Tarde'][al.estado] || 'NO vino',
+          uniforme_id: al.uniforme_id || null   // ahora sí trae valor
+        }));
+      
+        fetch('http://localhost:3000/guardarAsistencias', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ asistencias })
+        })
+        .then(res => res.json())
+        .then(data => {
+          if (data.ok) alert('Asistencia guardada correctamente');
+          else       alert('Error al guardar asistencia');
+        })
+        .catch(err => {
+          console.error('Error al guardar asistencia:', err);
+          alert('Error en el servidor');
+        });
+      });
+      
+
     buttonsContainer.appendChild(saveButton);
 
     grande.appendChild(buttonsContainer);

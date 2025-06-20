@@ -1,13 +1,15 @@
-function niveles(grados) {
+function niveles(grados, nivel) {
     let contenedor = document.createElement('div');
     contenedor.className = "niveles";
 
     let cuadroNivel = document.createElement('div');
     cuadroNivel.className = "cuadro-nivel";
+
     
     let titulo = document.createElement('h1');
     titulo.className = "welcomen";
-    titulo.textContent = "Asistencia de Estudiantes";
+    titulo.textContent = `Bienvenido a: ${nivel}`;
+    contenedor.appendChild(titulo);
     cuadroNivel.appendChild(titulo);
     contenedor.appendChild(cuadroNivel);
 
@@ -39,14 +41,15 @@ function niveles(grados) {
 
     let botonRegresar = document.createElement('button');
     botonRegresar.className = "curso-btn cerrar-sesion";
-    botonRegresar.textContent = "Regresar";
+    botonRegresar.textContent = "Salir";
     botonRegresar.addEventListener('click', () => {
-        const evento = new CustomEvent('volverProyeccion', {
-            bubbles: true
-        });
-        contenedor.dispatchEvent(evento);
+    const evento = new CustomEvent('cerrarSesion', {
+        bubbles: true
     });
-    contenedor.appendChild(botonRegresar);
+    contenedor.dispatchEvent(evento);
+});
+contenedor.appendChild(botonRegresar);
+
 
     return contenedor;
 }

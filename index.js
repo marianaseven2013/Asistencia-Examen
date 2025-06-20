@@ -35,8 +35,9 @@ async function cargarCSS(url) {
     }
 }
 
+
 function handleLogin(email, rol) {
-    // Limpiar listener anterior si existe
+    
     if (cerrarSesionHandler) {
         document.removeEventListener('cerrarSesion', cerrarSesionHandler);
     }
@@ -58,63 +59,31 @@ function handleLogin(email, rol) {
         continuarConVista(vistaCoordinador, './vistacoordinador/proyecciones/proyeccion.css');
 
     } else if (rol === 'profesor') {
-        // Fetch de grados para el profesor - CON MEJOR MANEJO DE ERRORES
-        // NUEVA RUTA Y ESTRUCTURA
-fetch('http://localhost:3000/obtenerGradosPorProfesorYNivel', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ correo: email, nivel: nivel }) // <- AQUI CAMBIAMOS
-})
-.then(response => {
-    if (!response.ok) {
-        return response.json().then(errData => {
-            throw new Error(errData.mensaje || `Error ${response.status}: ${response.statusText}`);
+
+        // Llama al backend para obtener los grados y el nivel del profesor
+        fetch('http://localhost:3000/obtenerGradosProfesor', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ correo: email })
+        })
+        .then(res => res.json())
+        .then(data => {
+            console.log('Datos de grados:', data);
+
+            // Llama a la función niveles correctamente
+            const vistaProfesor = niveles(data.grados, data.nivel); // ✅ solo grados si no quieres el nombre del nivel
+            // O bien: const vistaProfesor = niveles(data.grados, data.nivel); si modificaste la función para mostrar también el nombre del nivel
+
+            continuarConVista(vistaProfesor, './views/classvw/niveles.css');
+        })
+        .catch(error => {
+            console.error('Error al cargar grados del profesor:', error);
+            mostrarErrorAlUsuario('No se pudieron cargar los grados del profesor');
         });
-    }
-    return response.json();
-})
-.then(data => {
-    console.log('Respuesta de grados:', data);
 
-    if (data && data.grados && Array.isArray(data.grados)) {
-        const vistaProfesor = niveles(data.grados);
-        continuarConVista(vistaProfesor, './views/classvw/niveles.css');
-    } else {
-        const errorMsg = data?.mensaje || 'No se encontraron grados para este profesor';
-        console.warn('Respuesta inesperada del backend:', data);
-        mostrarErrorAlUsuario(errorMsg);
-    }
-})
-.catch(error => {
-    console.error('Error al obtener grados del profesor:', error);
-    mostrarErrorAlUsuario(error.message || 'Error al cargar los grados del profesor');
-});
-
-        
     } else {
         mostrarErrorAlUsuario('Rol no reconocido');
     }
-}
-
-// Función auxiliar para mostrar errores
-function mostrarErrorAlUsuario(mensaje) {
-    const errorDiv = document.createElement('div');
-    errorDiv.className = 'error-message';
-    errorDiv.textContent = mensaje;
-    errorDiv.style.color = 'red';
-    errorDiv.style.margin = '10px 0';
-    errorDiv.style.padding = '10px';
-    errorDiv.style.border = '1px solid red';
-    errorDiv.style.borderRadius = '4px';
-    
-    // Buscar un lugar adecuado para mostrar el error
-    const appContainer = document.getElementById('app') || document.body;
-    appContainer.prepend(errorDiv);
-    
-    // Eliminar el mensaje después de 5 segundos
-    setTimeout(() => {
-        errorDiv.remove();
-    }, 5000);
 }
 
 
@@ -342,23 +311,29 @@ function mostrarErrorAlUsuario(mensaje) {
     console.error('Error para el usuario:', mensaje);
 }
 
-    // Asistencia Grado (Estudiantes)
-    document.addEventListener('mostrarAsistenciaGrado', async (e) => {
-        try {
-            const view = asiscuadro(e.detail.nivelSeleccionado);
-            
-            view.addEventListener('volverNiveles', async () => {
-                const nivelesView = niveles();
-                nivelesView.addEventListener('volverProyeccion', () => mostrarVista(proyeccionDiv));
-                mostrarVista(nivelesView);
-            });
+document.addEventListener('mostrarAsistenciaGrado', async (e) => {
+    try {
+        const { gradoSeleccionado } = e.detail; // ✅ Extrae el grado del evento
 
-            await cargarCSS('./views/asistenciavw/asistencia.css');
-            mostrarVista(view);
-        } catch (error) {
-            console.error('Error al cargar asistencia:', error);
-        }
-    });
+        // ✅ Asegúrate de que `asiscuadro` espera un objeto con gradoId y nombreGrado
+        const view = await asiscuadro({ 
+            gradoId: gradoSeleccionado.id, 
+            nombreGrado: gradoSeleccionado.grado 
+        });
+
+        view.addEventListener('volverNiveles', async () => {
+            const nivelesView = niveles(); // Aquí si necesitas pasar grados y nivel, deberías recuperar eso también
+            nivelesView.addEventListener('volverProyeccion', () => mostrarVista(proyeccionDiv));
+            mostrarVista(nivelesView);
+        });
+
+        await cargarCSS('./views/asistenciavw/asistencia.css');
+        mostrarVista(view);
+    } catch (error) {
+        console.error('Error al cargar asistencia:', error);
+    }
+});
+
 
     // Estadísticas Generales
     document.addEventListener('mostrarEstadisticasGenerales', async () => {
@@ -433,16 +408,17 @@ async function cargarIngCodigo() {
 async function cargarCambioContra() {
     try {
         const { cambiocontra } = await import('./recuperar/cambiocontra/cambiocontra.js');
-        const view = cambiocontra();
-        view.addEventListener('mostrarLogin', () => {
-            mostrarVista(h_login(handleLogin));
-        });
+        
+        // Solo pasa el callback, no necesitas eventos aquí
+        const view = cambiocontra(() => mostrarVista(h_login(handleLogin)));
+
         await cargarCSS('./recuperar/cambiocontra/cambiocontra.css');
         mostrarVista(view);
     } catch (error) {
         console.error('Error al cargar cambiocontra:', error);
     }
 }
+
 // MANEJO DE RECUPERACIÓN DE CONTRASEÑA
 document.addEventListener('mostrarRecuperacion', async () => {
     try {

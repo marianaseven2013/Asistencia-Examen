@@ -1,4 +1,4 @@
-function cambiocontra() {
+function cambiocontra(callbackMostrarLogin) {
     let cambioContainer = document.createElement('div');
     cambioContainer.className = "cambiocontra";
 
@@ -33,7 +33,6 @@ function cambiocontra() {
         const confirmar = inputConfirmar.value;
 
         if (nuevaContrasena === confirmar && nuevaContrasena !== "") {
-            // Recuperar correo desde localStorage
             const correo = localStorage.getItem('correoRecuperacion');
             if (!correo) {
                 alert("Correo no disponible. Debes realizar primero la recuperación.");
@@ -49,8 +48,7 @@ function cambiocontra() {
 
                 if (res.ok) {
                     alert("Contraseña cambiada exitosamente.");
-                    const event = new CustomEvent('mostrarLogin', { bubbles: true });
-                    cambioContainer.dispatchEvent(event);
+                    callbackMostrarLogin(); // ✅ Regresa al login
                 } else {
                     alert("No se pudo cambiar la contraseña. Inténtalo de nuevo.");
                 }
@@ -67,4 +65,5 @@ function cambiocontra() {
 }
 
 export { cambiocontra };
+
 

@@ -1,12 +1,34 @@
+/* 1. Reset y caja de contención */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-}
-body{
+  }
+  
+  /* 2. Hacer que html y body ocupen el 100% del viewport */
+  html, body {
+    width: 100%;
+    height: 100%;
+  }
+  
+  /* 3. Centrar el contenido principal y adaptarlo a toda la pantalla */
+  body {
     display: flex;
     justify-content: center;
-    align-content: center;
-    padding-top: 6rem;
-}
+    align-items: center;    /* centra verticalmente */
+    padding-top: 0;          /* quita padding si quieres centrar exactamente */
+    overflow: hidden;        /* opcional: para evitar scroll inesperado */
+  }
+  
+  /* 4. Contenedor raíz de la app */
+  #root {
+    width: 100vw;            /* ocupa todo el ancho de la ventana */
+    height: 70vh;           /* ocupa toda la altura */
+    display: flex;
+    flex-direction: column;  /* ajusta según tu diseño */
+    justify-content: flex-start; /* puedes usar center si quieres centrar vertical */
+    align-items: center;     /* centra horizontal */
+    overflow-y: auto;        /* permite scroll interno si hay overflow */
+  }
+  
 

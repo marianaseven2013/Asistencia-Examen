@@ -11,14 +11,14 @@ async function gradosasis(nivelSeleccionado, correo) {
     contenedor.appendChild(titulo);
 
     try {
-        const res = await fetch('http://localhost:3000/obtenerGradosPorProfesorYNivel', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ correo, nivel: nivelSeleccionado })
-        });
+        const grados = [
+            { grado: 'Primero A' },
+            { grado: 'Segundo B' }
+            // Puedes reemplazar esto con otros datos que tengas disponibles
+        ];
+        
 
-        const data = await res.json();
-        const grados = data.grados || [];
+
 
         if (grados.length === 0) {
             let mensaje = document.createElement('p');
