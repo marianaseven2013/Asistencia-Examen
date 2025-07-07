@@ -6,7 +6,8 @@ function proyeccionest(datos) {
     let estado = {
         mesActual: new Date().getMonth(),
         añoActual: new Date().getFullYear(),
-        datosSemanas: generarDatosEjemplo() // Datos de ejemplo (reemplazar por API)
+        datosSemanas: datos.datosSemanas
+
     };
 
     // Nombres de los meses
@@ -14,17 +15,6 @@ function proyeccionest(datos) {
         "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio",
         "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"
     ];
-
-    function generarDatosEjemplo() {
-        // Datos de ejemplo - reemplazar con llamada a API
-        return [
-            { estado: 'verde', porcentaje: 95 },   // S1
-            { estado: 'amarillo', porcentaje: 80 }, // S2
-            { estado: 'rojo', porcentaje: 65 },     // S3
-            { estado: 'verde', porcentaje: 90 },    // S4
-            { estado: 'verde', porcentaje: 92 }     // S5
-        ];
-    }
 
     function renderizarCalendario() {
         contenedor.innerHTML = '';

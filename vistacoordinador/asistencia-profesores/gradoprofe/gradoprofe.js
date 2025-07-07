@@ -1,4 +1,4 @@
-function gradoprofe(nivelSeleccionado) {
+function gradoprofe(nivelSeleccionado, profesores) {
     let contenedor = document.createElement('div');
     contenedor.className = "gradoprofe-container";
 
@@ -10,44 +10,43 @@ function gradoprofe(nivelSeleccionado) {
     titulo.textContent = nivelSeleccionado;
     contenedor.appendChild(titulo);
 
-    // Datos de ejemplo
-    const profesores = [
-        { grado: "Pre-Kinder", nombre: "NombreProfessor" },
-        { grado: "Kinder", nombre: "NombreProfessor" },
-        { grado: "Prepa", nombre: "NombreProfessor" }
-    ];
-
     profesores.forEach((profesor, index) => {
         let grupo = document.createElement('div');
         grupo.className = "grupo-grado";
 
         let botonGrado = document.createElement('button');
         botonGrado.className = `grado-boton boton-${index + 1}`;
-        botonGrado.textContent = profesor.grado;
-        
-        // Evento para mostrar proyección semanal
-        // Dentro del event listener de los botones de grado:
-        botonGrado.addEventListener('click', () => {
-        const evento = new CustomEvent('mostrarProyeccionEst', {
-        detail: {
-        profesor: profesor.nombre,  // "Nombre Completo del Profesor"
-            grado: profesor.grado      // "Pre-Kinder", "Kinder", etc.
+        botonGrado.textContent = profesor.grado_nombre;
+
+        if (profesor.profesor_id) {
+            botonGrado.addEventListener('click', () => {
+                const evento = new CustomEvent('mostrarProyeccionEst', {
+                    detail: {
+                        profesor: profesor.profesor_nombre,
+                        profesorId: profesor.profesor_id,
+                        grado: profesor.grado_nombre,
+                        gradoId: profesor.grado_id,
+                        nivelSeleccionado: nivelSeleccionado
+                    }
+                });
+                document.dispatchEvent(evento);
+            });
+        } else {
+            botonGrado.disabled = true;
+            botonGrado.title = 'Sin profesor asignado';
         }
-    });
-    document.dispatchEvent(evento);
-});
-        
+
         grupo.appendChild(botonGrado);
 
         let nombreProfesor = document.createElement('p');
         nombreProfesor.className = "nombre-profesor";
-        nombreProfesor.textContent = profesor.nombre;
+        nombreProfesor.textContent = profesor.profesor_nombre || 'Sin profesor asignado';
         grupo.appendChild(nombreProfesor);
 
         grande.appendChild(grupo);
     });
 
-    // Botón de regresar
+    // ✅ Botón para regresar a nivelprofe
     let botonRegresar = document.createElement('button');
     botonRegresar.className = "grado-boton boton-regresar";
     botonRegresar.textContent = "Regresar";
@@ -55,9 +54,13 @@ function gradoprofe(nivelSeleccionado) {
         const evento = new CustomEvent('volverNivelProfe');
         contenedor.dispatchEvent(evento);
     });
+
     grande.appendChild(botonRegresar);
 
     return contenedor;
 }
 
 export { gradoprofe };
+
+
+

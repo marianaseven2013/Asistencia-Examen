@@ -14,7 +14,6 @@ function nivelprofe() {
     subtitulo.textContent = "Seleccione el nivel a gestionar";
     contenedor.appendChild(subtitulo);
 
-    // Botones para los niveles
     const niveles = ["Pre-Primaria", "Primaria", "Básicos", "Diversificado"];
     
     niveles.forEach((nivel, index) => {
@@ -22,7 +21,6 @@ function nivelprofe() {
         boton.className = `nivel-boton boton-${index + 1}`;
         boton.textContent = nivel;
         
-        // Evento para mostrar grados de profesores
         boton.addEventListener('click', () => {
             const evento = new CustomEvent('mostrarGradoProfe', {
                 detail: { nivelSeleccionado: nivel }
@@ -33,7 +31,7 @@ function nivelprofe() {
         grande.appendChild(boton);
     });
 
-    // Botón de regresar (configurado correctamente)
+    // Botón regresar a proyecciones
     let botonRegresar = document.createElement('button');
     botonRegresar.className = "nivel-boton boton-regresar";
     botonRegresar.textContent = "Regresar";

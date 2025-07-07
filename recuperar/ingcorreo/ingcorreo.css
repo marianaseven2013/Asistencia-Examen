@@ -1,78 +1,86 @@
-.ingcorreo {
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+  
+  html, body {
+    height: 100%;
+    font-family: 'Arial', sans-serif;
+  }
+  
+  .ingcorreo {
     width: 100%;
-    height: 40rem;
+    height: 100vh; /* Pantalla completa */
     background-image: linear-gradient(rgba(246, 246, 246, 0.5), rgba(95, 94, 94, 0.5)),
                       url(https://i.pinimg.com/736x/83/4b/d0/834bd0d31cd1cfbc1c0aa8c90b84dc02.jpg);
     background-blend-mode: darken;
+    background-size: cover;
+    background-position: center;
     display: grid;
     grid-template-columns: repeat(5, 1fr);
     grid-template-rows: repeat(8, 1fr);
-    font-family: 'Arial', sans-serif;
-}
+  }
+  
+  .cuadro-recuperacion {
 
-.cuadro-recuperacion {
+    height: 40rem;
     grid-column: 2/5;
     grid-row: 2/8;
-    background: transparent;
     background-image: linear-gradient(rgba(246, 246, 246, 0.5), rgba(86, 162, 127, 0.5));
     border: 2px solid #333;
     border-radius: 10px;
     box-shadow: 0px 0px 15px 5px rgba(0,0,0,0.3);
     padding: 2rem;
-   display: grid;
+    display: grid;
     grid-template-columns: repeat(5, 1fr);
     grid-template-rows: repeat(8, 1fr);
     align-items: center;
-}
-
-.titulo-recuperacion {
+  }
+  
+  .titulo-recuperacion {
     font-size: 2.5rem;
     font-weight: bold;
-    margin-bottom: 1rem;
     grid-column: 1/6;
     grid-row: 1/2;
-    margin: 5px 5px;
-}
-
-.instruccion {
-    font-size: 1.2rem;
-    margin-bottom: 1.5rem;
     text-align: center;
+  }
+  
+  .instruccion {
+    font-size: 1.2rem;
     grid-column: 1/6;
     grid-row: 2/3;
-    margin: 5px 5px;
-}
-
-.input-correo {
+    text-align: center;
+  }
+  
+  .input-correo {
     width: 80%;
     padding: 0.8rem;
     font-size: 1.2rem;
-    margin-bottom: 1.5rem;
     border: 1px solid #aaa;
     border-radius: 5px;
     grid-column: 2/5;
     grid-row: 4/5;
-    margin: 5px 5px;
-}
-
-.btn-enviar {
+    justify-self: center;
+  }
+  
+  .btn-enviar {
     padding: 0.8rem;
     font-size: 1.2rem;
     background-color: #28a745;
     color: white;
     border: none;
     border-radius: 5px;
-    margin-bottom: 1rem;
     cursor: pointer;
     grid-column: 3/4;
     grid-row: 7/8;
-}
-
-.btn-enviar:hover {
+  }
+  
+  .btn-enviar:hover {
     background-color: #218838;
-}
-
-.btn-cancelar {
+  }
+  
+  .btn-cancelar, .btn-seguir {
     padding: 0.8rem;
     font-size: 1.2rem;
     background-color: #677d63;
@@ -80,28 +88,66 @@
     border: none;
     border-radius: 5px;
     cursor: pointer;
+    margin: 5px;
+  }
+  
+  .btn-cancelar {
     grid-column: 1/2;
     grid-row: 7/8;
-    margin: 5px 5px;
-}
-
-.btn-cancelar:hover {
+  }
+  
+  .btn-cancelar:hover {
     background-color: #c82333;
-}
-
-.btn-seguir{
-    padding: 0.8rem;
-    font-size: 1.2rem;
-    background-color: #677d63;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
+  }
+  
+  .btn-seguir {
     grid-column: 5/6;
     grid-row: 7/8;
-    margin: 5px 5px;
-}
-
-.btn-seguir:hover {
+  }
+  
+  .btn-seguir:hover {
     background-color: #98a345;
-}
+  }
+  @media (max-width: 768px) {
+    .ingcorreo {
+      display: flex; /* usa flexbox en lugar de grid */
+      align-items: center; /* centra verticalmente */
+      justify-content: center; /* centra horizontalmente */
+      padding: 1rem;
+      height: 100vh; /* asegúrate de que use toda la altura */
+    }
+  
+    .cuadro-recuperacion {
+      width: 100%;
+      max-width: 400px;
+      height: auto; /* evita altura excesiva */
+      padding: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0px 0px 10px 4px rgba(0,0,0,0.2);
+    }
+  
+    .titulo-recuperacion,
+    .instruccion {
+      text-align: center;
+      width: 100%;
+      margin-bottom: 1rem;
+    }
+  
+    .input-correo {
+      width: 100%;
+      margin-bottom: 1.5rem;
+    }
+  
+    .btn-cancelar,
+    .btn-seguir,
+    .btn-enviar {
+      width: 100%;
+      margin: 0.5rem 0;
+    }
+  }
+  
+  
+    

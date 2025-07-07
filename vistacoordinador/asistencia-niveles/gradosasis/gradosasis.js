@@ -1,4 +1,4 @@
-async function gradosasis(nivelSeleccionado, correo) {
+async function gradosasis(nivelSeleccionado) {
     let contenedor = document.createElement('div');
     contenedor.className = "gradosasis-container";
 
@@ -11,39 +11,38 @@ async function gradosasis(nivelSeleccionado, correo) {
     contenedor.appendChild(titulo);
 
     try {
-        const grados = [
-            { grado: 'Primero A' },
-            { grado: 'Segundo B' }
-            // Puedes reemplazar esto con otros datos que tengas disponibles
-        ];
-        
+        const res = await fetch('http://localhost:3000/obtenerGradosPorNivel', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ nivel: nivelSeleccionado })
+        });
 
+        const data = await res.json();
 
+        if (data.grados && data.grados.length > 0) {
+            data.grados.forEach((grado, index) => {
+                let botonGrado = document.createElement('button');
+                botonGrado.className = `grado-boton boton-${index + 1}`;
+                botonGrado.textContent = grado.grado;
 
-        if (grados.length === 0) {
+                botonGrado.addEventListener('click', () => {
+                    const evento = new CustomEvent('mostrarViewEsta', {
+                        detail: {
+                            nivel: nivelSeleccionado,
+                            grado: grado.grado
+                        },
+                        bubbles: true
+                    });
+                    contenedor.dispatchEvent(evento);
+                });
+
+                grande.appendChild(botonGrado);
+            });
+        } else {
             let mensaje = document.createElement('p');
-            mensaje.textContent = "No tienes grados asignados para este nivel.";
+            mensaje.textContent = "No hay grados asignados para este nivel.";
             contenedor.appendChild(mensaje);
         }
-
-        grados.forEach((grado, index) => {
-            let botonGrado = document.createElement('button');
-            botonGrado.className = `grado-boton boton-${index + 1}`;
-            botonGrado.textContent = grado.grado;
-
-            botonGrado.addEventListener('click', () => {
-                const evento = new CustomEvent('mostrarViewEsta', {
-                    detail: {
-                        nivel: nivelSeleccionado,
-                        grado: grado.grado
-                    },
-                    bubbles: true
-                });
-                contenedor.dispatchEvent(evento);
-            });
-
-            grande.appendChild(botonGrado);
-        });
 
     } catch (error) {
         console.error('Error al obtener grados:', error);
@@ -65,5 +64,6 @@ async function gradosasis(nivelSeleccionado, correo) {
 
     return contenedor;
 }
+
 
 export { gradosasis };

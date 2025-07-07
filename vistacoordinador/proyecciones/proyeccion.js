@@ -64,13 +64,14 @@ function proyect() {
     grande.appendChild(boton4);
 
     let boton5 = document.createElement('button');
-    boton5.className = "bot5"; 
-    boton5.textContent = "Asistencia de los 4 niveles";
-    boton5.addEventListener('click', () => {
-        const evento = new CustomEvent('mostrarAsistenciaNiveles');
-        document.dispatchEvent(evento);
-    });
-    grande.appendChild(boton5);
+boton5.className = "bot5"; 
+boton5.textContent = "Asistencia de los 4 niveles";
+boton5.addEventListener('click', () => {
+    const evento = new CustomEvent('mostrarAsistenciaNiveles');
+    document.dispatchEvent(evento);
+});
+grande.appendChild(boton5);
+
 
     return ccion;
 }

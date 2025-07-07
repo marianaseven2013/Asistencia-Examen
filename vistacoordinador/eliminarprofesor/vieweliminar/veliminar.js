@@ -37,6 +37,13 @@ function crearVentanaEliminar(profesor) {
     advertencia.textContent = "Se perderán todos los datos";
     advertencia.className = 'advertencia';
     cuerpo.appendChild(advertencia);
+
+    const passInput = document.createElement('input');
+    passInput.type = 'password';
+    passInput.placeholder = 'Contraseña de la coordinadora';
+    passInput.className = 'input-contraseña';
+    cuerpo.appendChild(passInput);
+
     
     contenido.appendChild(cuerpo);
     

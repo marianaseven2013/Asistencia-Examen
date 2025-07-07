@@ -17,9 +17,14 @@ function niveles(grados, nivel) {
     btnEstadisticas.className = "distica";
     btnEstadisticas.textContent = "Ver Estadísticas Generales";
     btnEstadisticas.addEventListener('click', () => {
-        const evento = new CustomEvent('mostrarEstadisticasGenerales');
+        const evento = new CustomEvent('mostrarEstadisticasGenerales', {
+            detail: { grados, nivel },
+            bubbles: true
+        });
         contenedor.dispatchEvent(evento);
     });
+    
+    
     contenedor.appendChild(btnEstadisticas);
 
     // Aquí se crean los botones según los grados recibidos

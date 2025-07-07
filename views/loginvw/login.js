@@ -18,9 +18,13 @@ function h_login(onLogin) {
     logoig.className = "igglogo";
     pa_lo.appendChild(logoig);
 
-    let login_form = document.createElement('div');
-    login_form.className = "login-form"; 
-    login_n.appendChild(login_form); 
+    let cuadroLogin = document.createElement('div');
+cuadroLogin.className = "cuadro-login";
+login_n.appendChild(cuadroLogin);
+
+let login_form = document.createElement('div');
+login_form.className = "login-form"; 
+cuadroLogin.appendChild(login_form); 
 
     let inputEmail = document.createElement('input');
     inputEmail.type = "email";
@@ -60,8 +64,11 @@ function h_login(onLogin) {
             const data = await respuesta.json();
         
             if (respuesta.ok) {
+                localStorage.setItem('correo', email);
+                localStorage.setItem('usuario_id', data.id);  // ⬅️ GUARDA EL ID AQUÍ
                 onLogin(email, data.rol);
-            } else {
+            }
+             else {
                 alert(data.mensaje || 'Correo o contraseña incorrectos');
             }
         } catch (error) {

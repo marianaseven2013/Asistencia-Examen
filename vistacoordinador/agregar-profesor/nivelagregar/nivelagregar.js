@@ -4,15 +4,14 @@ function nivelagregar() {
 
     let grande = document.createElement('div');
     grande.className = "nivelagregar-grande";
-    contenedor.appendChild(grande);
 
     let titulo = document.createElement('h1');
     titulo.textContent = "Agregar Profesor";
-    contenedor.appendChild(titulo);
+    grande.appendChild(titulo);
 
     let subtitulo = document.createElement('h2');
     subtitulo.textContent = "Seleccione el nivel";
-    contenedor.appendChild(subtitulo);
+    grande.appendChild(subtitulo);
 
     const niveles = ["Pre-Primaria", "Primaria", "Básicos", "Diversificado"];
     
@@ -20,7 +19,7 @@ function nivelagregar() {
         let boton = document.createElement('button');
         boton.className = "nivel-boton";
         boton.textContent = nivel;
-        
+
         boton.addEventListener('click', () => {
             const evento = new CustomEvent('mostrarGradoAgregar', {
                 detail: { nivelSeleccionado: nivel },
@@ -28,7 +27,7 @@ function nivelagregar() {
             });
             contenedor.dispatchEvent(evento);
         });
-        
+
         grande.appendChild(boton);
     });
 
@@ -36,22 +35,14 @@ function nivelagregar() {
     botonRegresar.className = "nivel-boton boton-regresar";
     botonRegresar.textContent = "Regresar";
     botonRegresar.addEventListener('click', () => {
-        try {
-            const evento = new CustomEvent('volverProyeccion', {
-                bubbles: true,
-                cancelable: true
-            });
-            if (!document.dispatchEvent(evento)) {
-                console.warn('El evento volverProyeccion fue cancelado');
-            }
-        } catch (error) {
-            console.error('Error al disparar evento:', error);
-        }
-    
+        const evento = new CustomEvent('volverProyeccion', {
+            bubbles: true,
+        });
         contenedor.dispatchEvent(evento);
     });
     grande.appendChild(botonRegresar);
 
+    contenedor.appendChild(grande);
     return contenedor;
 }
 

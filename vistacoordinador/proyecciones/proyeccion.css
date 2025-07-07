@@ -1,119 +1,83 @@
-.proyeccioness{
+/* === ESTRUCTURA PRINCIPAL === */
+html, body {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+  }
+  
+  .proyeccioness {
+    width: 100vw;
+    height: 100vh;
     display: grid;
     grid-template-columns: repeat(10, 1fr);
     grid-template-rows: repeat(9, 1fr);
     background-color: #FFA64D;
-    max-width: 100%;
-    height: 40rem;
-}
-
-.pro-garnde{
+    background-size: cover;
+    background-position: center;
+    overflow: hidden;
+  }
+  
+  /* === CUADRO CENTRAL === */
+  .pro-garnde {
     grid-column: 4/8;
     grid-row: 3/9;
-/*     background-color: #F8F8F8;
- */background-image: url(https://i.pinimg.com/736x/64/17/bb/6417bb90c55d427f7b54aba44f4f86d0.jpg);
+    background-image: url(https://i.pinimg.com/736x/64/17/bb/6417bb90c55d427f7b54aba44f4f86d0.jpg);
     display: grid;
     grid-template-columns: auto 17rem auto;
-    grid-template-rows:1rem repeat(5, 1fr) 1rem;
+    grid-template-rows: 1rem repeat(5, 1fr) 1rem;
     gap: 5px;
     border-radius: 6px;
     box-shadow: 5px 7px 5px 7px rgb(211, 211, 211);
-
-}
-
-.bot1{
+  }
+  
+  /* === BOTONES INTERIORES === */
+  .bot1, .bot2, .bot3, .bot4, .bot5 {
     grid-column: 2/3;
-    grid-row: 2/3;
     background-color: #84a98c;
     border: #84a98c;
     box-shadow: 3px 3px 3px 3px rgb(228, 228, 228);
     color: white;
     border-radius: 5px;
     cursor: pointer;
-}
-.bot1:hover{
     transition: 0.2s;
+  }
+  
+  .bot1:hover,
+  .bot2:hover,
+  .bot3:hover,
+  .bot4:hover,
+  .bot5:hover {
     background-color: #52796f;
-}
-
-.bot2{
-    grid-column: 2/3;
-    grid-row: 3/4;
-    background-color: #84a98c;
-    border: #84a98c;
-    box-shadow: 3px 3px 3px 3px rgb(228, 228, 228);
-    color: white;
-    border-radius: 5px;
-    cursor: pointer;
-}
-.bot2:hover{
-    transition: 0.2s;
-    background-color: #52796f;
-}
-
-.bot3{
-    grid-column: 2/3;
-    grid-row: 4/5;
-    background-color: #84a98c;
-    border: #84a98c;
-    box-shadow: 3px 3px 3px 3px rgb(228, 228, 228); 
-    color: white;
-    border-radius: 5px;
-    cursor: pointer;
-}
-.bot3:hover{
-    transition: 0.2s;
-    background-color: #52796f;
-}
-
-.bot4{
-    grid-column: 2/3;
-    grid-row: 5/6;
-    background-color: #84a98c;
-    border: #84a98c;
-    box-shadow: 3px 3px 3px 3px rgb(228, 228, 228);
-    color: white;
-    border-radius: 5px;
-    cursor: pointer;
-}
-.bot4:hover{
-    transition: 0.2s;
-    background-color: #52796f;
-}
-
-.bot5{
-    grid-column: 2/3;
-    grid-row: 6/7;
-    background-color: #84a98c;
-    border: #84a98c;
-    box-shadow: 3px 3px 3px 3px rgb(228, 228, 228);
-    color: white;
-    border-radius: 5px;
-    cursor: pointer;
-}
-.bot5:hover{
-    transition: 0.2s;
-    background-color: #52796f;
-}
-
-h1{
+  }
+  
+  .bot1 { grid-row: 2/3; }
+  .bot2 { grid-row: 3/4; }
+  .bot3 { grid-row: 4/5; }
+  .bot4 { grid-row: 5/6; }
+  .bot5 { grid-row: 6/7; }
+  
+  /* === TÍTULOS === */
+  h1 {
     grid-column: 4/8;
     grid-row: 1/2;
-    border: transparent;
     color: white;
     font-size: 2.5rem;
-}
-
-h2{
+    border: transparent;
+    text-align: center;
+  }
+  
+  h2 {
     grid-column: 4/8;
     grid-row: 2/3;
-    border: transparent;
     color: white;
     font-size: 1.8rem;
     text-align: center;
-}
-         
-.bot-cerrar-sesion {
+    border: transparent;
+  }
+  
+  /* === BOTÓN CERRAR SESIÓN === */
+  .bot-cerrar-sesion {
     grid-column: 9/10;
     grid-row: 1/2;
     background-color: #e63946;
@@ -127,9 +91,50 @@ h2{
     align-self: center;
     justify-self: end;
     margin-right: 1rem;
-}
-
-.bot-cerrar-sesion:hover {
-    background-color: #c1121f;
     transition: background-color 0.3s;
-}
+  }
+  
+  .bot-cerrar-sesion:hover {
+    background-color: #c1121f;
+  }
+  
+  /* === RESPONSIVE PARA TELÉFONOS === */
+  @media (max-width: 768px) {
+    .proyeccioness {
+      grid-template-columns: 1fr;
+      grid-template-rows: auto;
+      padding: 1rem;
+      height: auto;
+    }
+  
+    .pro-garnde {
+      grid-column: 1 / -1;
+      grid-row: auto;
+      grid-template-columns: 1fr;
+      grid-template-rows: repeat(6, auto);
+      width: 100rem;
+      box-shadow: 0 0 10px rgba(0,0,0,0.2);
+      padding: 1rem;
+    }
+  
+    .bot1, .bot2, .bot3, .bot4, .bot5 {
+      grid-column: 1 / -1;
+      width: 100%;
+      font-size: 1.2rem;
+      padding: 1rem;
+    }
+  
+    h1, h2 {
+      grid-column: 1 / -1;
+      font-size: 1.8rem;
+      text-align: center;
+    }
+  
+    .bot-cerrar-sesion {
+      grid-column: 1 / -1;
+      justify-self: center;
+      margin: 1rem auto;
+    }
+  }
+  
+  

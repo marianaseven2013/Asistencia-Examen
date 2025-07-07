@@ -4,15 +4,14 @@ function niveleliminar() {
 
     let grande = document.createElement('div');
     grande.className = "niveleliminar-grande";
-    contenedor.appendChild(grande);
 
     let titulo = document.createElement('h1');
     titulo.textContent = "Eliminar Profesor";
-    contenedor.appendChild(titulo);
+    grande.appendChild(titulo); // antes estaba en contenedor
 
     let subtitulo = document.createElement('h2');
     subtitulo.textContent = "Seleccione el nivel del profesor a eliminar";
-    contenedor.appendChild(subtitulo);
+    grande.appendChild(subtitulo); // antes estaba en contenedor
 
     // Botones para los niveles
     const niveles = ["Pre-Primaria", "Primaria", "Básicos", "Diversificado"];
@@ -21,8 +20,7 @@ function niveleliminar() {
         let boton = document.createElement('button');
         boton.className = `nivel-boton boton-${index + 1}`;
         boton.textContent = nivel;
-        
-        // Evento para mostrar profesores a eliminar
+
         boton.addEventListener('click', () => {
             const evento = new CustomEvent('mostrarProfeEliminar', {
                 detail: { nivelSeleccionado: nivel },
@@ -30,7 +28,7 @@ function niveleliminar() {
             });
             contenedor.dispatchEvent(evento);
         });
-        
+
         grande.appendChild(boton);
     });
 
@@ -46,7 +44,9 @@ function niveleliminar() {
     });
     grande.appendChild(botonRegresar);
 
+    contenedor.appendChild(grande);
     return contenedor;
 }
+
 
 export { niveleliminar };

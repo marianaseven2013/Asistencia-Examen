@@ -1,19 +1,30 @@
-.cambiocontra {
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+  
+  html, body {
+    height: 100%;
+    font-family: 'Arial', sans-serif;
+  }
+  
+  .cambiocontra {
     width: 100%;
-    height: 40rem;
+    height: 100vh; /* pantalla completa */
     background-image: linear-gradient(rgba(246, 246, 246, 0.5), rgba(217, 154, 70, 0.5)),
                       url(https://i.pinimg.com/736x/4d/69/99/4d69996f47e1c7ca97bfdd29348e375c.jpg);
     background-blend-mode: darken;
+    background-size: cover;
+    background-position: center;
     display: grid;
     grid-template-columns: repeat(5, 1fr);
     grid-template-rows: repeat(8, 1fr);
-    font-family: 'Arial', sans-serif;
-}
-
-.cuadro-cambio {
+  }
+  
+  .cuadro-cambio {
     grid-column: 2/5;
     grid-row: 2/8;
-    background: transparent;
     background-image: linear-gradient(rgba(248, 176, 112, 0.5), rgba(109, 144, 195, 0.5));
     border: 2px solid #333;
     border-radius: 10px;
@@ -23,38 +34,37 @@
     grid-template-columns: repeat(5, 1fr);
     grid-template-rows: repeat(8, 1fr);
     align-items: center;
-}
-
-.titulo-cambio {
+  }
+  
+  .titulo-cambio {
     font-size: 2.5rem;
     font-weight: bold;
-    margin-bottom: 1rem;
+    text-align: center;
     grid-column: 1/6;
     grid-row: 1/2;
-    margin: 5px 5px;
-    text-align: center;
-}
-
-.input-password {
+    margin: 5px;
+  }
+  
+  .input-password {
     width: 80%;
     padding: 0.8rem;
     font-size: 1.2rem;
-    margin-bottom: 1.5rem;
     border: 1px solid #aaa;
     border-radius: 5px;
     grid-column: 2/5;
-    margin: 5px 5px;
-}
-
-.input-password:nth-of-type(1) {
+    justify-self: center;
+    margin: 5px;
+  }
+  
+  .input-password:nth-of-type(1) {
     grid-row: 3/4;
-}
-
-.input-password:nth-of-type(2) {
+  }
+  
+  .input-password:nth-of-type(2) {
     grid-row: 4/5;
-}
-
-.btn-aceptar {
+  }
+  
+  .btn-aceptar {
     padding: 0.8rem;
     font-size: 1.2rem;
     background-color: #edef53;
@@ -64,8 +74,46 @@
     cursor: pointer;
     grid-column: 3/4;
     grid-row: 7/8;
-}
-
-.btn-aceptar:hover {
-    background-color: #218838;
-}
+  }
+  
+  .btn-aceptar:hover {
+    background-color: #cdd835;
+  }
+  
+  @media (max-width: 768px) {
+    .cambiocontra {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+      height: 100%;
+    }
+  
+    .cuadro-cambio {
+      width: 100%;
+      max-width: 400px;
+      max-height: 20rem;
+      padding: 1.5rem;
+      display: flex ¡important;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+  
+    .titulo-cambio {
+      width: 100%;
+      margin-bottom: 1rem;
+      font-size: 2rem;
+    }
+  
+    .input-password {
+      width: 100%;
+      margin-bottom: 1rem;
+    }
+  
+    .btn-aceptar {
+      width: 100%;
+      margin-top: 1rem;
+    }
+  }
+  

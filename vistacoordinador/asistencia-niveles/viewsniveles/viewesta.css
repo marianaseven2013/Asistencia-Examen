@@ -1,16 +1,21 @@
 .viewesta-container {
+    width: 100vw;
+    height: 100vh;
     display: grid;
     grid-template-columns: repeat(10, 1fr);
     grid-template-rows: repeat(9, 1fr);
     background-color: #FFA64D;
-    max-width: 100%;
-    height: 40rem;
-}
-
-.viewesta-grande {
+    background-size: cover;
+    background-position: center;
+    overflow: hidden;
+  }
+  
+  .viewesta-grande {
     grid-column: 4/8;
     grid-row: 2/9;
     background-image: url(https://i.pinimg.com/736x/64/17/bb/6417bb90c55d427f7b54aba44f4f86d0.jpg);
+    background-size: cover;
+    background-position: center;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -18,25 +23,27 @@
     box-shadow: 5px 7px 5px 7px rgb(211, 211, 211);
     padding: 1rem;
     overflow-y: auto;
-}
-
-.viewesta-grande h1 {
+    width: 100%;
+    height: 100%;
+  }
+  
+  .viewesta-grande h1 {
     color: white;
     font-size: 1.8rem;
     margin-bottom: 1.5rem;
     text-align: center;
     text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
-}
-
-.estadisticas-container {
+  }
+  
+  .estadisticas-container {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 1.5rem;
     width: 90%;
     padding: 0 1rem;
-}
-
-.estadistica-item {
+  }
+  
+  .estadistica-item {
     background-color: rgba(255, 255, 255, 0.9);
     border-radius: 8px;
     padding: 1rem;
@@ -46,9 +53,9 @@
     align-items: center;
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
     min-height: 100px;
-}
-
-.nombre-estudiante {
+  }
+  
+  .nombre-estudiante {
     font-size: 1rem;
     color: #333;
     margin: 0 0 0.5rem 0;
@@ -58,16 +65,16 @@
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-}
-
-.porcentaje {
+  }
+  
+  .porcentaje {
     font-size: 1.8rem;
     font-weight: bold;
     color: #2b8a3e;
     margin: 0;
-}
-
-.viewesta-boton {
+  }
+  
+  .viewesta-boton {
     margin-top: 1.5rem;
     padding: 0.8rem 2rem;
     background-color: #6c757d;
@@ -77,19 +84,40 @@
     cursor: pointer;
     font-size: 1rem;
     transition: background-color 0.2s;
-}
-
-.viewesta-boton:hover {
+  }
+  
+  .viewesta-boton:hover {
     background-color: #5a6268;
-}
-
-/* Para pantallas más pequeñas */
-@media (max-width: 768px) {
+  }
+  
+  /* Responsivo para pantallas pequeñas */
+  @media (max-width: 768px) {
+    .viewesta-container {
+      grid-template-columns: 1fr;
+      grid-template-rows: auto;
+      height: auto;
+      padding: 1rem;
+    }
+  
+    .viewesta-grande {
+      grid-column: 1 / -1;
+      grid-row: auto;
+      width: 100%;
+      height: auto;
+      padding: 1rem;
+    }
+  
     .estadisticas-container {
-        grid-template-columns: 1fr;
+      grid-template-columns: 1fr;
     }
-    
+  
     .viewesta-grande h1 {
-        font-size: 1.5rem;
+      font-size: 1.5rem;
     }
-}
+  
+    .viewesta-boton {
+      width: 100%;
+      font-size: 1rem;
+    }
+  }
+  

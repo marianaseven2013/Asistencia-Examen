@@ -1,46 +1,46 @@
-function crearVentanaEliminar(nombreAlumno) {
+function crearVentanaEliminar(nombreAlumno, alumnoId) {
     const modal = document.createElement('div');
     modal.className = 'modal-eliminar';
-    
+
     const modalContenido = document.createElement('div');
     modalContenido.className = 'modal-contenido';
-    
-    // Header
+
     const header = document.createElement('div');
     header.className = 'modal-header';
-    header.textContent = `Para la eliminación del alumno, ingrese SU contraseña`;
+    header.textContent = `Para eliminar al alumno "${nombreAlumno}", ingrese su contraseña`;
     modalContenido.appendChild(header);
-    
-    // Campo de contraseña
+
     const passInput = document.createElement('input');
     passInput.type = 'password';
-    passInput.placeholder = 'Ingrese Contraseña';
+    passInput.placeholder = 'Contraseña';
     passInput.className = 'password-input';
     modalContenido.appendChild(passInput);
-    
-    // Footer
+
     const footer = document.createElement('div');
     footer.className = 'modal-footer';
-    
+
     const btnConfirmar = document.createElement('button');
-    btnConfirmar.className = 'btn-confirmar';
-    btnConfirmar.textContent = 'Confirmar Eliminación';
-    
+    btnConfirmar.textContent = 'Confirmar';
     footer.appendChild(btnConfirmar);
     modalContenido.appendChild(footer);
-    
-    // Eventos
-    btnConfirmar.addEventListener('click', () => {
-        if (passInput.value.trim() === '') {
-            alert('Por favor ingrese su contraseña');
-            return;
-        }
-        alert(`Alumno "${nombreAlumno}" eliminado`);
-        document.body.removeChild(modal);
-        return true;
-    });
-    
     modal.appendChild(modalContenido);
+
+    btnConfirmar.addEventListener('click', () => {
+        const contrasena = passInput.value.trim();
+        if (!contrasena) return alert('Ingrese su contraseña');
+
+        const evento = new CustomEvent('confirmacion', {
+            detail: {
+                confirmado: true,
+                contrasena,
+                alumnoId
+            },
+            bubbles: true
+        });
+        modal.dispatchEvent(evento);
+        document.body.removeChild(modal);
+    });
+
     return modal;
 }
 

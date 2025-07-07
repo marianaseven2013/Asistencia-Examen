@@ -1,16 +1,13 @@
-// estgeneral.js
-
-function estg() {
+function estg(grados) {
     const contenedor = document.createElement('div');
     contenedor.className = 'estadisticas-container';
 
-    // Botón de descarga y regresar
     const header = document.createElement('div');
     header.className = 'estadisticas-header';
 
     const descargar = document.createElement('button');
     descargar.className = 'btn-descargar';
-    descargar.textContent = '\u2B07'; // Flecha hacia abajo
+    descargar.textContent = '\u2B07'; // Flecha
 
     const regresar = document.createElement('button');
     regresar.className = 'btn-regresar';
@@ -24,24 +21,22 @@ function estg() {
     header.appendChild(regresar);
     contenedor.appendChild(header);
 
-    // Gráfico (barras)
+    // Contenedor para la gráfica
     const grafica = document.createElement('div');
     grafica.className = 'grafica-barras';
 
-    const grados = ['VC', 'VD', 'VB', 'IVC', 'IVB', 'IVPC', 'VPC', 'VIPC'];
-    const valores = [8, 7, 9, 5, 6, 10, 7, 6];
-
-    grados.forEach((grado, i) => {
+    grados.forEach(grado => {
         const barraCont = document.createElement('div');
         barraCont.className = 'barra-contenedor';
 
         const barra = document.createElement('div');
         barra.className = 'barra';
-        barra.style.height = (valores[i] * 10) + 'px'; // Altura simulada
+        // Aquí puedes usar un valor real si lo tienes. Por ahora, simulamos:
+        barra.style.height = (Math.floor(Math.random() * 10) + 1) * 10 + 'px';
 
         const etiqueta = document.createElement('div');
         etiqueta.className = 'etiqueta';
-        etiqueta.textContent = grado;
+        etiqueta.textContent = grado.grado;
 
         barraCont.appendChild(barra);
         barraCont.appendChild(etiqueta);
@@ -50,16 +45,15 @@ function estg() {
 
     contenedor.appendChild(grafica);
 
-    // Contenedor de botones de grados
+    // Botones para cada grado
     const botonesContainer = document.createElement('div');
     botonesContainer.className = 'botones-grados';
 
     grados.forEach(grado => {
         const btn = document.createElement('button');
         btn.className = 'btn-grado';
-        btn.textContent = grado;
+        btn.textContent = grado.grado;
 
-        // ✅ Emitir el evento mostrarIndividual al hacer clic
         btn.addEventListener('click', () => {
             const event = new CustomEvent('mostrarIndividual', { 
                 bubbles: true, 
@@ -77,3 +71,4 @@ function estg() {
 }
 
 export { estg };
+

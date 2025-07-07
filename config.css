@@ -1,34 +1,51 @@
-/* 1. Reset y caja de contención */
+/* config.css */
+
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-  }
-  
-  /* 2. Hacer que html y body ocupen el 100% del viewport */
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* HTML y body a pantalla completa */
+html, body {
+  height: 100%;
+  width: 100%;
+  font-family: sans-serif;
+  background: linear-gradient(rgba(99, 99, 99, 0.5), rgba(75, 75, 75, 0.5)),
+              url("https://img.freepik.com/foto-gratis/cuadernos-naranja-sobre-fondo-verde-concepto-merienda-escolar_169016-26881.jpg");
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Contenedor React o general */
+#root {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+@media (max-width: 768px) {
   html, body {
-    width: 100%;
-    height: 100%;
+    flex-direction: column; /* Permite scroll si el contenido es largo */
+    padding: 1rem;
+    align-items: flex-start; /* Alinea más arriba en pantallas pequeñas */
+    overflow-y: auto;
   }
-  
-  /* 3. Centrar el contenido principal y adaptarlo a toda la pantalla */
-  body {
-    display: flex;
-    justify-content: center;
-    align-items: center;    /* centra verticalmente */
-    padding-top: 0;          /* quita padding si quieres centrar exactamente */
-    overflow: hidden;        /* opcional: para evitar scroll inesperado */
-  }
-  
-  /* 4. Contenedor raíz de la app */
+
   #root {
-    width: 100vw;            /* ocupa todo el ancho de la ventana */
-    height: 70vh;           /* ocupa toda la altura */
-    display: flex;
-    flex-direction: column;  /* ajusta según tu diseño */
-    justify-content: flex-start; /* puedes usar center si quieres centrar vertical */
-    align-items: center;     /* centra horizontal */
-    overflow-y: auto;        /* permite scroll interno si hay overflow */
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 1rem;
+    height: auto; /* Permite que crezca según el contenido */
+    min-height: 100vh;
   }
+}
+
+
   
 

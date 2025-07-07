@@ -110,12 +110,13 @@ export function asiscuadro({ gradoId, nombreGrado }) {
             formularioBtn.className = 'formulario-btn';
             formularioBtn.textContent = 'Ir a Formulario';
             formularioBtn.addEventListener('click', () => {
-                const calendario = calnd(alumno.nombre);
+                const calendario = calnd(alumno.nombre, gradoId, alumno.id); // ✅ pasar los tres parámetros
                 calendario.addEventListener('volverAsistencia', () => {
                     cambiarVista(container);
                 });
                 cambiarVista(calendario);
             });
+            
             nombreWrapper.appendChild(formularioBtn);
 
             const accionesContainer = document.createElement('div');
@@ -128,15 +129,40 @@ export function asiscuadro({ gradoId, nombreGrado }) {
             trashIcon.alt = 'Eliminar';
             deleteBtn.appendChild(trashIcon);
             deleteBtn.addEventListener('click', () => {
-                const modal = crearVentanaEliminar(alumno.nombre);
+                const modal = crearVentanaEliminar(alumno.nombre, alumno.id); // pasa también el ID
                 document.body.appendChild(modal);
+            
                 modal.addEventListener('confirmacion', (e) => {
-                    if (e.detail.confirmado) {
-                        alumnos = alumnos.filter((_, i) => i !== index);
-                        renderAlumnos();
-                    }
+                    const contrasena = e.detail.contrasena;
+                    const alumnoId = e.detail.alumnoId;
+                    const correoUsuario = localStorage.getItem('correo'); // necesario para validar
+            
+                    fetch('http://localhost:3000/eliminarAlumno', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            alumno_id: alumnoId,
+                            correo: correoUsuario,
+                            contrasena: contrasena
+                        })
+                    })
+                    .then(res => res.json())
+                    .then(data => {
+                        if (data.ok) {
+                            alumnos = alumnos.filter((_, i) => i !== index);
+                            renderAlumnos();
+                            alert('Alumno eliminado correctamente');
+                        } else {
+                            alert(data.mensaje || 'Error al eliminar');
+                        }
+                    })
+                    .catch(err => {
+                        console.error('Error al eliminar alumno:', err);
+                        alert('Error de servidor al eliminar');
+                    });
                 });
             });
+            
 
             const estadoBtn = document.createElement('button');
             estadoBtn.className = 'estado-btn';
@@ -160,9 +186,11 @@ export function asiscuadro({ gradoId, nombreGrado }) {
             emailBtnIcon.alt = 'Email';
             emailBtn.appendChild(emailBtnIcon);
             emailBtn.addEventListener('click', () => {
-                const modal = crearVentanaCorreoAlumno(alumno.nombre);
+                const modal = crearVentanaCorreoAlumno(alumno.nombre, alumno.correo); 
                 document.body.appendChild(modal);
             });
+            
+            
 
             const uniformeBtn = document.createElement('button');
             uniformeBtn.className = 'uniforme-btn';
@@ -257,31 +285,34 @@ export function asiscuadro({ gradoId, nombreGrado }) {
     buttonsContainer.appendChild(backButton);
 
     const saveButton = document.createElement('button');
-    saveButton.textContent = 'Guardar';
-    saveButton.className = 'primary';
-    saveButton.addEventListener('click', () => {
-        const asistencias = alumnos.map(al => ({
-          alumnos_id: al.id,
-          grados_id: gradoId,
-          estado: ['NO vino','Vino','Tarde'][al.estado] || 'NO vino',
-          uniforme_id: al.uniforme_id || null   // ahora sí trae valor
-        }));
-      
-        fetch('http://localhost:3000/guardarAsistencias', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ asistencias })
-        })
-        .then(res => res.json())
-        .then(data => {
-          if (data.ok) alert('Asistencia guardada correctamente');
-          else       alert('Error al guardar asistencia');
-        })
-        .catch(err => {
-          console.error('Error al guardar asistencia:', err);
-          alert('Error en el servidor');
-        });
-      });
+saveButton.textContent = 'Guardar';
+saveButton.className = 'primary';
+saveButton.addEventListener('click', () => {
+    const usuario_id = parseInt(localStorage.getItem('usuario_id')); // ⚠️ Necesario para que el backend lo relacione
+
+    const asistencias = alumnos.map(al => ({
+        alumnos_id: al.id,
+        grados_id: gradoId,
+        estado: al.estado, // Ahora es número: 0, 1, 2...
+        usuarios_id: usuario_id
+    }));
+
+    fetch('http://localhost:3000/guardarAsistencias', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ asistencias })
+    })
+    .then(res => res.json())
+    .then(data => {
+        if (data.ok) alert('Asistencia guardada correctamente');
+        else         alert('Error al guardar asistencia');
+    })
+    .catch(err => {
+        console.error('Error al guardar asistencia:', err);
+        alert('Error en el servidor');
+    });
+});
+
       
 
     buttonsContainer.appendChild(saveButton);
@@ -289,9 +320,19 @@ export function asiscuadro({ gradoId, nombreGrado }) {
     grande.appendChild(buttonsContainer);
 
     emailHeaderBtn.addEventListener('click', () => {
-        const modal = crearVentanaRedactarCorreo();
+        const correos = alumnos
+          .map(a => a.correo)
+          .filter(correo => /\S+@\S+\.\S+/.test(correo)); // Solo correos válidos
+    
+        if (correos.length === 0) {
+            alert('No hay correos válidos para enviar.');
+            return;
+        }
+    
+        const modal = crearVentanaRedactarCorreo(correos); // ← aquí estaba el error
         document.body.appendChild(modal);
     });
+
 
     forAllBtn.addEventListener('click', () => {
         alumnos.forEach(alumno => { alumno.estado = 1; });

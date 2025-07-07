@@ -1,23 +1,30 @@
 .profeeliminar-container {
-    display: grid;
-    grid-template-columns: repeat(10, 1fr);
-    grid-template-rows: repeat(9, 1fr);
     background-color: #FFA64D;
-    max-width: 100%;
-    height: 40rem;
-}
-
-.profeeliminar-grande {
-    grid-column: 4/8;
-    grid-row: 3/9;
-    background-image: url(https://i.pinimg.com/736x/64/17/bb/6417bb90c55d427f7b54aba44f4f86d0.jpg);
+    min-height: 100vh;
+    width: 100vw;
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 15px;
-    border-radius: 6px;
-    box-shadow: 5px 7px 5px 7px rgb(211, 211, 211);
-    padding: 1rem;
+    justify-content: center;
+    padding: 2rem;
+    box-sizing: border-box;
+    overflow-y: auto;
+}
+
+.profeeliminar-grande {
+    background-image: url(https://i.pinimg.com/736x/64/17/bb/6417bb90c55d427f7b54aba44f4f86d0.jpg);
+    background-size: cover;
+    background-position: center;
+    border-radius: 12px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+    padding: 2rem;
+    width: 100%;
+    max-width: 700px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.2rem;
+    box-sizing: border-box;
     overflow-y: auto;
 }
 
@@ -25,54 +32,104 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 5px;
-    background-color: rgba(255, 255, 255, 0.8);
+    gap: 0.5rem;
+    background-color: rgba(255, 255, 255, 0.85);
     padding: 1rem;
-    border-radius: 5px;
-    width: 80%;
+    border-radius: 8px;
+    width: 100%;
 }
 
 .grado-profesor {
     font-weight: bold;
+    font-size: 1.1rem;
     margin: 0;
     color: #333;
+    text-align: center;
 }
 
 .nombre-profesor {
     margin: 0;
+    font-size: 1rem;
     color: #555;
+    text-align: center;
 }
 
 .eliminar-boton {
     background-color: #ff6b6b;
     border: none;
     color: white;
-    padding: 0.5rem 1rem;
-    border-radius: 4px;
+    padding: 0.6rem 1.2rem;
+    font-size: 1rem;
+    border-radius: 6px;
     cursor: pointer;
     margin-top: 0.5rem;
     width: 100%;
+    transition: background-color 0.3s, transform 0.2s;
 }
 
 .eliminar-boton:hover {
     background-color: #ff5252;
+    transform: translateY(-1px);
 }
 
 .boton-regresar {
     background-color: #6c757d;
-    margin-top: 1rem;
+    color: white;
+    border: none;
+    padding: 0.6rem 1.2rem;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 1rem;
+    width: 100%;
+    transition: background-color 0.3s, transform 0.2s;
 }
 
 .boton-regresar:hover {
     background-color: #5a6268;
+    transform: translateY(-1px);
 }
 
 h1 {
-    grid-column: 4/8;
-    grid-row: 1/2;
-    border: transparent;
     color: white;
-    font-size: 2rem;
+    font-size: 2.2rem;
     text-align: center;
-    margin: 0;
+    margin-bottom: 1rem;
+}
+
+/* 📱 Responsive móvil */
+@media (max-width: 768px) {
+    .profeeliminar-container {
+        padding: 1rem;
+        justify-content: flex-start;
+    }
+
+    .profeeliminar-grande {
+        padding: 1.2rem;
+        max-width: 100%;
+        border-radius: 0;
+        box-shadow: none;
+    }
+
+    .grupo-profesor {
+        gap: 0.4rem;
+        padding: 0.8rem;
+    }
+
+    h1 {
+        font-size: 1.6rem;
+    }
+
+    .grado-profesor {
+        font-size: 1rem;
+    }
+
+    .nombre-profesor {
+        font-size: 0.95rem;
+    }
+
+    .eliminar-boton,
+    .boton-regresar {
+        font-size: 0.95rem;
+        padding: 0.6rem;
+    }
 }

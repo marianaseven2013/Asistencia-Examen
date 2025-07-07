@@ -1,76 +1,136 @@
-/* estgeneral.css */
 .estadisticas-container {
-    padding: 10px;
+    margin-top: 3in;
+    width: 90%;
+    max-width: 800px;
+    background-color: white;
+    border: 2px solid #333;
+    border-radius: 10px;
+    box-shadow: 0px 0px 15px rgba(0,0,0,0.2);
+  
     display: flex;
     flex-direction: column;
     align-items: center;
-    font-family: sans-serif;
-}
-
-.estadisticas-header {
+    justify-content: center;
+    padding: 1.5rem;
+  }
+  
+  /* Cabecera con los botones */
+  .estadisticas-header {
     width: 100%;
     display: flex;
     justify-content: space-between;
-    margin-bottom: 10px;
-}
-
-.btn-descargar {
-    font-size: 24px;
-    background: cyan;
+    margin-bottom: 1.5rem;
+  }
+  
+  /* Botones generales */
+  .btn-descargar, .btn-regresar {
+    padding: 10px 20px;
+    font-size: 1rem;
     border: none;
-    border-radius: 50%;
-    width: 35px;
-    height: 35px;
-}
-
-.btn-regresar {
-    background: none;
-    border: none;
-    font-weight: bold;
-    font-size: 14px;
-    color: black;
-}
-
-.grafica-barras {
+    border-radius: 5px;
+    background-color: #e0e0e0;
+    cursor: pointer;
+  }
+  
+  .btn-descargar:hover,
+  .btn-regresar:hover {
+    background-color: #d1d1d1;
+  }
+  
+  /* Gráfica */
+  .grafica-barras {
     display: flex;
-    justify-content: space-around;
+    justify-content: center;
+    align-items: flex-end;
+    gap: 1rem;
+    height: 200px;
     width: 100%;
-    height: 150px;
-    border: 1px solid #aaa;
-    padding: 10px;
-    margin-bottom: 20px;
-}
-
-.barra-contenedor {
+    border-top: 2px solid #ccc;
+    padding-top: 1rem;
+    margin-bottom: 2rem;
+  }
+  
+  .barra-contenedor {
     display: flex;
     flex-direction: column;
     align-items: center;
-    width: 20px;
-}
-
-.barra {
+    width: 40px;
+  }
+  
+  .barra {
     width: 100%;
-    background: lightgray;
+    background-color: #4caf50;
     transition: height 0.3s ease;
-}
-
-.etiqueta {
-    font-size: 10px;
-    margin-top: 5px;
-}
-
-.botones-grados {
+  }
+  
+  .etiqueta {
+    margin-top: 0.5rem;
+    font-size: 0.9rem;
+  }
+  
+  /* Botones por grado */
+  .botones-grados {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    gap: 10px;
-}
-
-.btn-grado {
-    background: #ddd;
-    border: none;
-    padding: 10px;
-    border-radius: 6px;
-    min-width: 60px;
+    gap: 1rem;
+    width: 100%;
+  }
+  
+  .btn-grado {
+    padding: 10px 15px;
+    font-size: 1rem;
+    border: 2px solid #333;
+    border-radius: 5px;
+    background-color: #f0ad4e;
+    color: white;
     cursor: pointer;
-}
+  }
+  
+  .btn-grado:hover {
+    background-color: #ec971f;
+  }
+  
+  /* 🔻 ADAPTACIÓN A TELÉFONO */
+  @media (max-width: 768px) {
+    .estadisticas-container {
+      margin-top: 2rem; /* Mucho más cerca del centro */
+      width: 95%;
+      padding: 1rem;
+      border-width: 1px;
+    }
+  
+    .estadisticas-header {
+      flex-direction: column;
+      gap: 0.5rem;
+      align-items: center;
+    }
+  
+    .btn-descargar, .btn-regresar {
+      width: 100%;
+      font-size: 1rem;
+      padding: 10px;
+    }
+  
+    .grafica-barras {
+      flex-wrap: wrap;
+      height: auto;
+      gap: 0.5rem;
+    }
+  
+    .barra-contenedor {
+      width: 30px;
+    }
+  
+    .botones-grados {
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+  
+    .btn-grado {
+      width: 100%;
+      text-align: center;
+    }
+  }
+  
+  
