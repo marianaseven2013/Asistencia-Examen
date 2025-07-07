@@ -1,3 +1,5 @@
+import { API_URL } from "../../../services/img/config.js";
+
 async function gradosasis(nivelSeleccionado) {
     let contenedor = document.createElement('div');
     contenedor.className = "gradosasis-container";
@@ -11,7 +13,7 @@ async function gradosasis(nivelSeleccionado) {
     contenedor.appendChild(titulo);
 
     try {
-        const res = await fetch('http://localhost:3000/obtenerGradosPorNivel', {
+        const res = await fetch(`${API_URL}/obtenerGradosPorNivel`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ nivel: nivelSeleccionado })

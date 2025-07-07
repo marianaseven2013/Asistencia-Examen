@@ -1,3 +1,5 @@
+import { API_URL } from "../../services/img/config.js";
+
 function calnd(nombreAlumno = "Nombre Completo", gradoId, alumnoId) {
     const cl_dar = document.createElement('div');
     cl_dar.className = "pa-calen contenedor-calendario";
@@ -61,7 +63,7 @@ function calnd(nombreAlumno = "Nombre Completo", gradoId, alumnoId) {
 
         let coloresDias = {};
         try {
-            const res = await fetch('http://localhost:3000/asistenciaResumenCalendario', {
+            const res = await fetch(`${API_URL}/asistenciaResumenCalendario`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ alumnoId, mes: mes + 1, anio })

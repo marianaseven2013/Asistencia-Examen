@@ -1,3 +1,5 @@
+import { API_URL } from "../../services/img/config.js";
+
 function cambiocontra(callbackMostrarLogin) {
     let cambioContainer = document.createElement('div');
     cambioContainer.className = "cambiocontra";
@@ -40,7 +42,7 @@ function cambiocontra(callbackMostrarLogin) {
             }
 
             try {
-                const res = await fetch('http://localhost:3000/cambiar-contrasena', {
+                const res = await fetch(`${API_URL}/cambiar-contrasena`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ correo, nuevaContrasena })

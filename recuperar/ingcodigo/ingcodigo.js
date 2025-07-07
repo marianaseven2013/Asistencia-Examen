@@ -1,3 +1,5 @@
+import { API_URL } from "../../services/img/config.js";
+
 function ingcodigo() {
     let ing_cod = document.createElement('div');
     ing_cod.className = "ingcodigo";
@@ -53,7 +55,7 @@ function ingcodigo() {
     
         if (codigo) {
             try {
-                const res = await fetch('http://localhost:3000/verificar-codigo', {
+                const res = await fetch(`${API_URL}/verificar-codigo`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ correo, codigo })

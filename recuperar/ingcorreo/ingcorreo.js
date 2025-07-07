@@ -1,3 +1,5 @@
+import { API_URL } from "../../services/img/config.js";
+
 function ingcorreo() {
     let ing_co = document.createElement('div');
     ing_co.className = "ingcorreo";
@@ -58,7 +60,7 @@ function ingcorreo() {
     
         if (correo) {
             try {
-                const res = await fetch('http://localhost:3000/enviar-codigo', {
+                const res = await fetch(`${API_URL}/enviar-codigo`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ correo })

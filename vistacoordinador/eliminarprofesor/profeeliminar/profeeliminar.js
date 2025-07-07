@@ -1,4 +1,5 @@
 import { crearVentanaEliminar } from '../vieweliminar/veliminar.js';
+import { API_URL } from '../../../services/img/config.js';
 
 function profeeliminar(nivelSeleccionado) {
     let contenedor = document.createElement('div');
@@ -12,7 +13,8 @@ function profeeliminar(nivelSeleccionado) {
     titulo.textContent = `Eliminar Profesor - ${nivelSeleccionado}`;
     contenedor.appendChild(titulo);
 
-    fetch('http://localhost:3000/profesoresPorNivel', {
+    fetch(`${API_URL}/profesoresPorNivel`, {
+
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ nivel: nivelSeleccionado })
@@ -45,7 +47,8 @@ function profeeliminar(nivelSeleccionado) {
                     const correoCoordinador = localStorage.getItem('correo');
                     const contrasena = modal.querySelector('input[type="password"]').value;
     
-                    fetch('http://localhost:3000/eliminarProfesor', {
+                    fetch(`${API_URL}/eliminarProfesor`, {
+
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify({

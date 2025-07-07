@@ -4,6 +4,7 @@ import { crearVentanaEliminar } from '../../ventanas/eliminaralumno/eliminaralum
 import { crearVentanaCorreoAlumno } from '../../ventanas/correoalumno/correoalumno.js';
 import { crearVentanaAgregarAlumno } from '../../ventanas/agregaralumno/agregaralumno.js';
 import { calnd } from '../../calendario/calendario/calendario.js';
+import { API_URL } from '../../services/img/config.js';
 
 function cambiarVista(nuevaVista) {
     const root = document.getElementById('root');
@@ -68,7 +69,7 @@ export function asiscuadro({ gradoId, nombreGrado }) {
     alumnosContainer.className = 'alumnos-container';
 
     let alumnos = [];
-    fetch('http://localhost:3000/obtenerAlumnosPorGrado', {
+    fetch(`${API_URL}/obtenerAlumnosPorGrado`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ grado_id: gradoId })
@@ -137,7 +138,7 @@ export function asiscuadro({ gradoId, nombreGrado }) {
                     const alumnoId = e.detail.alumnoId;
                     const correoUsuario = localStorage.getItem('correo'); // necesario para validar
             
-                    fetch('http://localhost:3000/eliminarAlumno', {
+                    fetch('${API_URL}/eliminarAlumno', {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify({
@@ -244,7 +245,7 @@ export function asiscuadro({ gradoId, nombreGrado }) {
         modal.addEventListener('nuevoAlumno', (e) => {
             const nuevo = e.detail;
 
-            fetch('http://localhost:3000/agregarAlumno', {
+            fetch(`${API_URL}/agregarAlumno`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
@@ -297,7 +298,7 @@ saveButton.addEventListener('click', () => {
         usuarios_id: usuario_id
     }));
 
-    fetch('http://localhost:3000/guardarAsistencias', {
+    fetch(`${API_URL}/guardarAsistencias`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ asistencias })

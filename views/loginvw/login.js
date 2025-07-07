@@ -1,3 +1,5 @@
+import { API_URL } from "../../services/img/config.js";
+
 function h_login(onLogin) {
     let login_n = document.createElement('div');
     login_n.className = "loogin";
@@ -53,7 +55,8 @@ cuadroLogin.appendChild(login_form);
         const password = inputPassword.value;
 
         try {
-            const respuesta = await fetch('http://localhost:3000/login', {
+            const respuesta = await fetch(`${API_URL}/login`, {
+
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

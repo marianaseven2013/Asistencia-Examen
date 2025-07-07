@@ -1,3 +1,5 @@
+import { API_URL } from "../../../services/img/config.js";
+
 function agregaralumno({ nivel, grado }) {
     // 1. Mapeo exacto basado en tu BD (asegúrate que coincida exactamente)
     const mapNivelesBD = {
@@ -157,7 +159,7 @@ function agregaralumno({ nivel, grado }) {
 
             console.log("Datos a enviar a la BD:", profesor);
 
-            const respuesta = await fetch('http://localhost:3000/agregar-profesor', {
+            const respuesta = await fetch(`${API_URL}/agregar-profesor`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(profesor)

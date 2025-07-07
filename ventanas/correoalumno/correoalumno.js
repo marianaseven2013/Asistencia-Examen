@@ -1,3 +1,5 @@
+import { API_URL } from "../../services/img/config.js";
+
 function crearVentanaCorreoAlumno(nombreAlumno, correoAlumno) {
     const modal = document.createElement('div');
     modal.className = 'modal-correo-individual';
@@ -63,7 +65,7 @@ function crearVentanaCorreoAlumno(nombreAlumno, correoAlumno) {
           });
           
 
-        fetch('http://localhost:3000/enviarCorreoAlumno', {
+        fetch(`${API_URL}/enviarCorreoAlumno`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({

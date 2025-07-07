@@ -1,3 +1,5 @@
+import { API_URL } from "../../../services/img/config.js";
+
 async function viewesta({ nivel, grado }) {
     let contenedor = document.createElement('div');
     contenedor.className = "viewesta-container";
@@ -14,7 +16,7 @@ async function viewesta({ nivel, grado }) {
     estadisticas.className = "estadisticas-container";
 
     try {
-        const res = await fetch('http://localhost:3000/asistenciaPorcentajesSemana', {
+        const res = await fetch(`${API_URL}/asistenciaPorcentajesSemana`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ nivel, grado })

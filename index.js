@@ -5,6 +5,7 @@ import { estg } from './estadisticas/generalest/estgeneral.js';
 import { individual } from './estadisticas/individualest/individual.js';
 import { proyect } from './vistacoordinador/proyecciones/proyeccion.js';
 import { gradoprofe } from './vistacoordinador/asistencia-profesores/gradoprofe/gradoprofe.js';
+import { API_URL } from './services/img/config.js';
 import { proyeccionest } from './vistacoordinador/asistencia-profesores/proyeccionest/proyeccionest.js';
 
 
@@ -65,7 +66,8 @@ function handleLogin(email, rol) {
      else if (rol === 'profesor') {
 
         // Llama al backend para obtener los grados y el nivel del profesor
-        fetch('http://localhost:3000/obtenerGradosProfesor', {
+        fetch(`${API_URL}/obtenerGradosProfesor`, {
+
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ correo: email })
@@ -132,7 +134,8 @@ function configurarManejadoresEventos() {
         const { nivelSeleccionado } = e.detail;
     
         try {
-            const res = await fetch('http://localhost:3000/profesoresPorNivel', {
+            const res = await fetch(`${API_URL}/profesoresPorNivel`, {
+
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ nivel: nivelSeleccionado })
@@ -161,7 +164,8 @@ function configurarManejadoresEventos() {
         const anio = new Date().getFullYear();
     
         try {
-            const res = await fetch('http://localhost:3000/proyeccionProfesor', {
+            const res = await fetch(`${API_URL}/proyeccionProfesor`, {
+
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ profesorId, gradoId, mes, anio })
@@ -182,7 +186,8 @@ function configurarManejadoresEventos() {
     
                     try {
                         // Usar POST para pedir profesores por nivel (evita GET con nivel undefined)
-                        const res = await fetch('http://localhost:3000/profesoresPorNivel', {
+                        const res = await fetch(`${API_URL}/profesoresPorNivel`, {
+
                             method: 'POST',
                             headers: { 'Content-Type': 'application/json' },
                             body: JSON.stringify({ nivel: nivelSeleccionado })
@@ -460,7 +465,8 @@ document.addEventListener('mostrarAsistenciaGrado', async (e) => {
             view.addEventListener('mostrarGradoAsis', async (e) => {
                 const nivelSeleccionado = e.detail.nivelSeleccionado;
     
-                const response = await fetch('http://localhost:3000/obtenerGradosPorNivel', {
+                const response = await fetch(`${API_URL}/obtenerGradosPorNivel`, {
+
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ nivel: nivelSeleccionado })

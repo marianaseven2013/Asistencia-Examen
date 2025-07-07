@@ -1,3 +1,5 @@
+import { API_URL } from "../../services/img/config.js";
+
 function crearVentanaUniforme(alumno) {
     const modal = document.createElement('div');
     modal.className = 'modal-uniforme';
@@ -85,7 +87,7 @@ function crearVentanaUniforme(alumno) {
         alumnos_id: alumno.id
       };
   
-      fetch('http://localhost:3000/guardarUniforme', {
+      fetch(`${API_URL}/guardarUniforme`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(datos)

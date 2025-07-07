@@ -1,3 +1,5 @@
+import { API_URL } from "../../services/img/config.js";
+
 function crearVentanaRedactarCorreo(listaCorreos = []) {
     const modal = document.createElement('div');
     modal.className = 'modal-correo';
@@ -50,7 +52,7 @@ function crearVentanaRedactarCorreo(listaCorreos = []) {
             return;
         }
 
-        fetch('http://localhost:3000/enviarCorreoTodos', {
+        fetch(`${API_URL}/enviarCorreoTodos`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({

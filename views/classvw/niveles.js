@@ -1,3 +1,4 @@
+
 function niveles(grados, nivel) {
     let contenedor = document.createElement('div');
     contenedor.className = "niveles";
